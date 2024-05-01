@@ -1,0 +1,14 @@
+# Ignorar la carpeta node_modules
+node_modules/
+
+# Ignorar archivos de configuración específicos de IDEs
+.vscode/
+.idea/
+
+# Ignorar archivos de configuración de sistemas operativos
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de registro y archivos temporales
+*.log
+*.tmp
