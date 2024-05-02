@@ -2,7 +2,7 @@
   "name": "desafio-03",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon app.js"
