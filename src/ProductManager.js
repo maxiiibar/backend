@@ -44,7 +44,7 @@ class ProductManager {
       products.push(product);
       await fs.promises.writeFile(this.path, JSON.stringify(products));
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   }
   async getProducts() {
@@ -54,7 +54,7 @@ class ProductManager {
         return JSON.parse(products);
       } else return [];
     } catch (error) {
-      throw new Error(`Product with ID ${id} not found`);
+      console.log(error)
     }
   }
 
