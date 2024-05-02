@@ -1,7 +1,14 @@
 import express from "express";
-import { products } from "./products.js";
+import { ProductManager, path} from "./ProductManager.js"
+/* import { products } from "./products.js"; */
 
+console.log(path)
 const app = express();
+
+const productManager = new ProductManager(path)
+
+const products = await productManager.getProducts()
+console.log(products);
 
 app.get("/products", (req, res) => {
     const limit = req.query.limit;
