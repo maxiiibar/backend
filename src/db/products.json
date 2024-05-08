@@ -1,23 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Smartphone XYZ",
-    "description": "Smartphone de alta gama con pantalla OLED",
-    "price": 100000,
-    "thumbnail": "Sin imagen",
-    "code": "tech001",
-    "stock": 50
-  },
-  {
-    "id": 2,
-    "title": "Laptop ABC",
-    "description": "Laptop ultradelgada con procesador de última generación",
-    "price": 150000,
-    "thumbnail": "Sin imagen",
-    "code": "tech002",
-    "stock": 30
-  },
-  {
     "id": 3,
     "title": "Cámara DSLR 123",
     "description": "Cámara réflex digital con sensor de alta resolución",
