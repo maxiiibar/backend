@@ -9,8 +9,13 @@ const productManager = new ProductManager(`${__dirname}/db/products.json`);
 
 router.get("/", async (req, res, next) => {
   try {
+    const limit = req.query.limit;
     const products = await productManager.getProducts();
-    res.status(200).json(products);
+    if (limit) {
+      if (limit > products.length) res.status(400).json({msg: "There are not enough products for this limit"})
+      else res.json(products.slice(0, parseInt(limit)));
+    }
+    else res.status(200).json(products);
   } catch (error) {
     next(error);
   }
@@ -37,7 +42,7 @@ router.post("/", productValidator, async (req, res) => {
   }
 });
 
-router.put("/:idProd", productValidator, async (req, res) => {
+router.put("/:idProd", async (req, res) => {
   try {
     const { idProd } = req.params;
     const propUpdated = await productManager.updateProduct(idProd, req.body);
@@ -57,6 +62,15 @@ router.delete("/:idProd", async (req, res) => {
     } catch (error) {
         next(error);
     }
+})
+
+router.delete("/", async (req, res) => {
+  try {
+    await productManager.deleteFile()
+    res.send("File deleted succesfully")
+  } catch (error) {
+    next(error)
+  }
 })
 
 export default router;

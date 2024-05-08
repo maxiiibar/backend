@@ -6,18 +6,21 @@ export const productValidator = (req, res, next) => {
         req.body.price === undefined ||
         req.body.stock === undefined ||
         req.body.category === undefined ||
+        req.body.thumbnail === undefined ||
         req.body.title === null ||
         req.body.description === null ||
         req.body.code === null ||
         req.body.price === null ||
         req.body.stock === null ||
         req.body.category === null ||
+        req.body.thumbnail === null ||
         req.body.title === "" ||
         req.body.description === "" ||
         req.body.code === "" ||
         req.body.price === "" ||
         req.body.stock === "" ||
-        req.body.category === ""
+        req.body.category === ""  ||
+        req.body.thumbnail === ""
     ) res.status(404).json({msg: 'Invalid body'});
     else next()
 }

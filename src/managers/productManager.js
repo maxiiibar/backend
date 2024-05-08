@@ -45,11 +45,13 @@ export default class ProductManager {
   }
 
   async updateProduct(id, obj) {
+    console.log(obj);
     try {
       const products = await this.getProducts();
-      const productExist = await this.getProductById(id);
+      let productExist = await this.getProductById(id);
       if (!productExist) return null;
       productExist = { ...productExist, ...obj };
+      console.log(productExist);
       const productsUpdated = products.filter((element) => element.id !== id);
       productsUpdated.push(productExist);
       await fs.promises.writeFile(this.path, JSON.stringify(productsUpdated));
