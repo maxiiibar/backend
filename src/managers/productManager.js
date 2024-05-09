@@ -18,7 +18,7 @@ export default class ProductManager {
       await fs.promises.writeFile(this.path, JSON.stringify(products));
       return product;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
@@ -29,7 +29,7 @@ export default class ProductManager {
         return JSON.parse(products);
       } else return [];
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
@@ -40,14 +40,14 @@ export default class ProductManager {
       if (!productExist) return null;
       return productExist;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
   async updateProduct(id, obj) {
     try {
       const products = await this.getProducts();
-      const productExist = await this.getProductById(id);
+      let productExist = await this.getProductById(id);
       if (!productExist) return null;
       productExist = { ...productExist, ...obj };
       const productsUpdated = products.filter((element) => element.id !== id);
@@ -55,7 +55,7 @@ export default class ProductManager {
       await fs.promises.writeFile(this.path, JSON.stringify(productsUpdated));
       return productExist;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
@@ -64,7 +64,6 @@ export default class ProductManager {
     const products = await this.getProducts();
     if (products.length > 0) {
       const productExist = await this.getProductById(id);
-      console.log(productExist)
       if (productExist) {
         const productsUpdated = products.filter((element) => element.id !== id);
         await fs.promises.writeFile(this.path, JSON.stringify(productsUpdated));
@@ -78,7 +77,7 @@ export default class ProductManager {
       await fs.promises.unlink(this.path);
       console.log("Archivo eliminado");
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 }
