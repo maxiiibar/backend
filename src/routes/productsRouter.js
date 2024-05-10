@@ -10,6 +10,7 @@ const productManager = new ProductManager(`${__dirname}/db/products.json`);
 router.get("/", async (req, res, next) => {
   try {
     const limit = req.query.limit;
+    const limit = req.query.limit;
     const products = await productManager.getProducts();
     if (limit) {
       if (limit > products.length)
@@ -44,6 +45,7 @@ router.post("/", productValidator, async (req, res) => {
   }
 });
 
+router.put("/:idProd", async (req, res) => {
 router.put("/:idProd", async (req, res) => {
   try {
     const { idProd } = req.params;
