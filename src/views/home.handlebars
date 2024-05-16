@@ -1,0 +1,13 @@
+<h2>PRODUCTOS DISPONIBLES</h2>
+<div class="container">
+    {{#if products.length}}
+    {{#each products}}
+        <ul>
+            <li>{{title}}</li>
+            <li>{{id}}</li>
+        </ul>
+    {{/each}}
+{{else}}
+    <p>No existen productos registrados</p>
+{{/if}}
+</div>

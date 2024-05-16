@@ -23,6 +23,13 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+const hola = "Hola"
+
+router.get("/home", async(req, res) => {
+  const products = await productManager.getProducts();
+  res.render('home', {products})
+})
+
 router.get("/:idProd", async (req, res) => {
   try {
     const { idProd } = req.params;
