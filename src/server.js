@@ -29,7 +29,7 @@ app.use("/realtimeproducts", realTimeProductsRouter);
 
 app.use(errorHandler);
 
-initMongoDB
+initMongoDB()
 
 const PORT = 8080;
 

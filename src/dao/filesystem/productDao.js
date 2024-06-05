@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 
-export default class ProductManager {
+export default class ProductDaoFS {
   constructor(path) {
     this.path = path;
   }
@@ -10,7 +10,6 @@ export default class ProductManager {
     try {
       const product = {
         id: uuidv4(),
-        status: true,
         ...obj,
       };
       const products = await this.getProducts();
@@ -70,14 +69,5 @@ export default class ProductManager {
         return productExist;
       }
     } else return null;
-  }
-
-  async deleteFile() {
-    try {
-      await fs.promises.unlink(this.path);
-      console.log("Archivo eliminado");
-    } catch (error) {
-      throw new Error(error);
-    }
   }
 }
