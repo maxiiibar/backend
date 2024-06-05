@@ -4,10 +4,11 @@ import productsRouter from "./routes/productsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import realTimeProductsRouter from "./routes/realTimeProductsRouter.js";
 import morgan from "morgan";
-import ProductManager from "./managers/productManager.js";
+import ProductManager from "./dao/filesystem/productDao.js";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import { initMongoDB } from "./dao/mongodb/connection.js";
 
 const productManager = new ProductManager(`${__dirname}/db/products.json`);
 
@@ -27,6 +28,8 @@ app.use("/api/carts", cartRouter);
 app.use("/realtimeproducts", realTimeProductsRouter);
 
 app.use(errorHandler);
+
+initMongoDB
 
 const PORT = 8080;
 

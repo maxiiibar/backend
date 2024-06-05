@@ -1,6 +1,9 @@
 # Ignorar la carpeta node_modules
 node_modules/
 
+#Ignorar archivo env
+.env
+
 # Ignorar archivos de configuración específicos de IDEs
 .vscode/
 .idea/
