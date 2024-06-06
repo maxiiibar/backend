@@ -4,13 +4,14 @@ import productsRouter from "./routes/productsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import realTimeProductsRouter from "./routes/realTimeProductsRouter.js";
 import morgan from "morgan";
-import ProductManager from "./dao/filesystem/productDao.js";
+import ProductDaoFS from "./daos/filesystem/productDao.js";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { initMongoDB } from "./dao/mongodb/connection.js";
+import { initMongoDB } from "./daos/mongodb/connection.js";
+import 'dotenv/config'
 
-const productManager = new ProductManager(`${__dirname}/db/products.json`);
+const productManager = new ProductDaoFS(`${__dirname}/db/products.json`);
 
 const app = express();
 
@@ -24,12 +25,12 @@ app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartRouter);
-app.use("/realtimeproducts", realTimeProductsRouter);
+/* app.use("/api/carts", cartRouter); */
+/* app.use("/realtimeproducts", realTimeProductsRouter); */
 
 app.use(errorHandler);
 
-initMongoDB()
+if (process.env.PERSISTENCE == 'MONGO') initMongoDB();
 
 const PORT = 8080;
 
