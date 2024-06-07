@@ -22,34 +22,36 @@ export default class MessageMongoDB {
   async getMsgById(id) {
     try {
       const msg = await MessageModel.findById(id);
+      if (!msg) throw new Error("Message not found");
       return msg;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async addProductToCart(idCart, idProduct) {
+  async updateMsg(id, obj) {
     try {
-      const productDao = new ProductDaoMongoDB();
-      const product = await productDao.getProductById(idProduct);
-      if (!product) throw new Error("Product doesn't exist");
-      const cart = await CartModel.findById(idCart);
-      if (!cart) throw new Error("Cart doesn't exist");
-      const productIndex = cart.products.findIndex(
-        (p) => p._id.toString() === idProduct
-      );
-      if (productIndex !== -1) cart.products[productIndex].quantity += 1;
-      else cart.products.push({ _id: idProduct, quantity: 1 });
-      await cart.save();
-      return cart;
+      const msg = await this.getMsgById(id);
+      const msgUpdated = await MessageModel.findByIdAndUpdate(id, obj, { new: true });
+      if (!msgUpdated) throw new Error("Error updating message");
+      return msgUpdated;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async deleteCart(id) {
+  async deleteMsg(id) {
     try {
-      const response = await CartModel.findByIdAndDelete(id);
+      const deletedMsg = await MessageModel.findByIdAndDelete(id);
+      if (!deletedMsg) throw new Error("Msg not found")
+      return deletedMsg;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async deleteAllMsgs() {
+    try {
+      const response = await MessageModel.collection.drop();
       return response;
     } catch (error) {
       throw new Error(error);
