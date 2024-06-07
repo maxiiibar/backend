@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-export const productsCollectionName = "product";
+export const productsCollectionName = "products";
 
 const ProductsSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
   stock: { type: Number, required: true },

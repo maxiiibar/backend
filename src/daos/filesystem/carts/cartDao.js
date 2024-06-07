@@ -1,11 +1,11 @@
-import { __dirname } from "../path.js";
+import { __dirname } from "../../../path.js"
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
-import ProductManager from "../daos/filesystem/productDao.js";
+import ProductDaoFS from "../products/productDao.js";
 
-const productManager = new ProductManager(`${__dirname}/db/products.json`);
+const productManager = new ProductDaoFS(`${__dirname}/daos/filesystem/products/products.json`);
 
-export default class CartManager {
+export default class CartDaoFS {
   constructor(path) {
     this.path = path;
   }
@@ -76,5 +76,17 @@ export default class CartManager {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async deleteCart(id) {
+    const carts = await this.getAllCarts();
+    if (carts.length > 0) {
+      const cartExist = await this.getCartById(id);
+      if (cartExist) {
+        const cartsUpdated = carts.filter((element) => element.id !== id);
+        await fs.promises.writeFile(this.path, JSON.stringify(cartsUpdated));
+        return cartExist;
+      }
+    } else return null;
   }
 }

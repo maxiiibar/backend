@@ -59,7 +59,6 @@ export default class ProductDaoFS {
   }
 
   async deleteProduct(id) {
-    console.log(id);
     const products = await this.getProducts();
     if (products.length > 0) {
       const productExist = await this.getProductById(id);

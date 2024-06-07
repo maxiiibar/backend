@@ -45,7 +45,7 @@ export const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
         const response = await service.deleteProduct(id);
-        if (!response) res.status(404).json({msg: 'Error removing '});
+        if (!response) res.status(404).json({msg: 'Error removing product'});
         else res.json(response)
     } catch (error) {
         next(error.message)
