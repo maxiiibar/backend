@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { __dirname } from "../path.js";
 
 const router = Router();
 

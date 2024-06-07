@@ -1,16 +1,13 @@
 <h2>New Product:</h2>
 <form id="form">
-    <label>Title:</label><input type="text" name="name" id="title">
+    <label>Name:</label><input type="text" name="name" id="name">
     <label>Description:</label><input type="text" name="description" id="description">
     <label>Price:</label><input type="number" name="price" id="price">
-    <label>Thumbnail:</label><input type="text" name="thumbnail" id="thumbnail">
-    <label>Code:</label><input type="text" name="code" id="code">
     <label>Stock:</label><input type="number" name="stock" id="stock">
-    <label>Category:</label><input type="text" name="category" id="category">
     <input type="submit" value="SEND">
 </form>
 
 <p id="products"></p>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/configWebsocket.js"></script>
+<script src="../public/js/productsWebsocket.js"></script>

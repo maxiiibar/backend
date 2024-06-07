@@ -1,33 +1,23 @@
 const socketClient = io();
 
 const form = document.getElementById('form')
-const inputTitle = document.getElementById('title')
+const inputName = document.getElementById('name')
 const inputDescription = document.getElementById('description')
-const inputPrice = document.getElementById('price')
-const inputThumbnail = document.getElementById('thumbnail')
-const inputCode = document.getElementById('code')
 const inputStock = document.getElementById('stock')
-const inputCategory = document.getElementById('category')
 const products = document.getElementById('products')
 
 form.onsubmit = (e) => {
     e.preventDefault();
-    const title = inputTitle.value;
+    const name = inputname.value;
     const price = inputPrice.value;
     const description = inputDescription.value;
-    const thumbnail = inputThumbnail.value;
-    const code = inputCode.value;
     const stock = inputStock.value;
-    const category = inputCategory.value;
 
     const product = {
-        title,
+        name,
         price,
         description,
-        thumbnail,
-        code,
-        stock,
-        category
+        stock
     }
 
     console.log()
@@ -37,7 +27,7 @@ form.onsubmit = (e) => {
 socketClient.on('products', (arrayProducts)=>{
     let infoProducts = '';
     arrayProducts.map((prod)=>{
-        infoProducts += `${prod.title} - $${prod.price} </br>`
+        infoProducts += `${prod.name} - $${prod.price} </br>`
     })
     products.innerHTML = infoProducts
 })

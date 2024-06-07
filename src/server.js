@@ -3,15 +3,19 @@ import handlebars from "express-handlebars";
 import productsRouter from "./routes/productsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import realTimeProductsRouter from "./routes/realTimeProductsRouter.js";
+import chatRouter from "./routes/messagesRouter.js";
 import morgan from "morgan";
 import ProductDaoFS from "./daos/filesystem/products/productDao.js";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { initMongoDB } from "./daos/mongodb/connection.js";
-import 'dotenv/config'
+import * as service from "./services/messageService.js"
+import "dotenv/config";
 
-const productManager = new ProductDaoFS(`${__dirname}/daos/filesystem/products/products.json`);
+const productManager = new ProductDaoFS(
+  `${__dirname}/daos/filesystem/products/products.json`
+);
 
 const app = express();
 
@@ -27,10 +31,11 @@ app.set("views", __dirname + "/views");
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/realtimeproducts", realTimeProductsRouter);
+app.use("/chat", chatRouter);
 
 app.use(errorHandler);
 
-if (process.env.PERSISTENCE == 'MONGO') initMongoDB();
+if (process.env.PERSISTENCE == "MONGO") initMongoDB();
 
 const PORT = 8080;
 
@@ -40,10 +45,24 @@ const httpServer = app.listen(PORT, () =>
 
 const socketIoServer = new Server(httpServer);
 
-socketIoServer.on('connection', (socket) => {
+socketIoServer.on("connection", (socket) => {
   socket.on("newProduct", async (prod) => {
     await productManager.addProduct(prod);
     const products = await productManager.getProducts();
     socketIoServer.emit("products", products);
+  });
+
+  socket.on("newUser", (user) => {
+    console.log(`> ${user} ha iniciado sesión`);
+    socket.broadcast.emit("newUser", user);
+  });
+
+  socket.on("chat:message", async (msg) => {
+    await service.createMsg(msg);
+    socketIoServer.emit("messages", await service.getAllMsg());
+  });
+
+  socket.on("chat:typing", (data) => {
+    socket.broadcast.emit("chat:typing", data);
   });
 });

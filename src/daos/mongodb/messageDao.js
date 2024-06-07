@@ -1,4 +1,4 @@
-import { MessageModel } from "./models/cartModel.js";
+import { MessageModel } from "./models/messageModel.js";
 
 export default class MessageMongoDB {
   async createMsg(msg) {
