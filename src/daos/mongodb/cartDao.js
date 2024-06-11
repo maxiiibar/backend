@@ -1,11 +1,9 @@
 import { CartModel } from "./models/cartModel.js";
-import ProductDaoMongoDB from "./productDao.js";
 
 export default class CartDaoMongoDB {
   async addCart() {
     try {
-      const cart = await CartModel.create({ products: [] });
-      return cart;
+      return await CartModel.create({ products: [] });
     } catch (error) {
       throw new Error(error);
     }
@@ -13,8 +11,7 @@ export default class CartDaoMongoDB {
 
   async getAllCarts() {
     try {
-      const response = await CartModel.find({});
-      return response;
+      return await CartModel.find({});
     } catch (error) {
       throw new Error(error);
     }
@@ -22,27 +19,15 @@ export default class CartDaoMongoDB {
 
   async getCartById(id) {
     try {
-      const response = await CartModel.findById(id);
-      return response;
+      return await CartModel.findById(id).populate("products.product");
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async addProductToCart(idCart, idProduct) {
+  async addProductToCart(idCart, idProduct, quantity) {
     try {
-      const productDao = new ProductDaoMongoDB();
-      const product = await productDao.getProductById(idProduct);
-      if (!product) throw new Error("Product doesn't exist");
-      const cart = await CartModel.findById(idCart);
-      if (!cart) throw new Error("Cart doesn't exist");
-      const productIndex = cart.products.findIndex(
-        (p) => p._id.toString() === idProduct
-      );
-      if (productIndex !== -1) cart.products[productIndex].quantity += 1;
-      else cart.products.push({ _id: idProduct, quantity: 1 });
-      await cart.save();
-      return cart;
+      const cart = await CartModel.findById(id)
     } catch (error) {
       throw new Error(error);
     }
