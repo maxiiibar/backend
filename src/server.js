@@ -1,9 +1,13 @@
 import express from "express";
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import handlebars from "express-handlebars";
 import productsRouter from "./routes/productsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
-import realTimeProductsRouter from "./routes/realTimeProductsRouter.js";
 import chatRouter from "./routes/messagesRouter.js";
+import userRouter from "./routes/userRouter.js";
+import viewsRouter from "./routes/viewsRouter.js";
 import morgan from "morgan";
 import ProductDaoFS from "./daos/filesystem/products/productDao.js";
 import { Server } from "socket.io";
@@ -36,14 +40,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
+app.use(cookieParser());
+app.use(session(storeConfig));
+
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-app.use("/realtimeproducts", realTimeProductsRouter);
+// app.use("/realtimeproducts", realTimeProductsRouter);
 app.use("/chat", chatRouter);
+app.use('/users', userRouter);
+app.use('/', viewsRouter);
 
 app.use(errorHandler);
 

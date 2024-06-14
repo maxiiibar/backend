@@ -44,3 +44,8 @@ export const visit = (req, res, next) => {
     msg: `${req.session.info.userName} ha visitado el sitio ${req.session.info.contador} veces.`,
   });
 };
+
+export const logout = (req, res) => {
+  req.session.destroy();
+  res.send("session destroy");
+};
