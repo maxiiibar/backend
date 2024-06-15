@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { validateLogin } from "../middlewares/validateLogin.js";
+import { visit } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -15,9 +17,9 @@ router.get("/register", (req, res) => {
 //   res.render("profile");
 // });
 
-router.get('/realTimeProducts', async(req, res) => {
-    res.render('realTimeProducts')
-})
-
+router.get("/realTimeProducts", async (req, res) => {
+  visit(req, res)
+  res.render("realTimeProducts");
+});
 
 export default router;

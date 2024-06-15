@@ -9,17 +9,14 @@ import chatRouter from "./routes/messagesRouter.js";
 import userRouter from "./routes/userRouter.js";
 import viewsRouter from "./routes/viewsRouter.js";
 import morgan from "morgan";
-import ProductDaoFS from "./daos/filesystem/products/productDao.js";
+import ProductDaoMongoDB from "./daos/mongodb/productDao.js";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { initMongoDB } from "./db/database.js";
-import * as service from "./services/messageServices.js"
+import * as msgService from "./services/messageServices.js"
+import * as userService from "./controllers/userController.js"
 import "dotenv/config";
-
-const productManager = new ProductDaoFS(
-  `${__dirname}/daos/filesystem/products/products.json`
-);
 
 const storeConfig = {
   store: MongoStore.create({
@@ -52,11 +49,13 @@ app.use("/api/carts", cartRouter);
 // app.use("/realtimeproducts", realTimeProductsRouter);
 app.use("/chat", chatRouter);
 app.use('/users', userRouter);
-app.use('/', viewsRouter);
+app.use('/views', viewsRouter);
 
 app.use(errorHandler);
 
 if (process.env.PERSISTENCE == "MONGO") initMongoDB();
+
+const prodDao = new ProductDaoMongoDB();
 
 const PORT = 8080;
 
@@ -68,10 +67,15 @@ const socketIoServer = new Server(httpServer);
 
 socketIoServer.on("connection", (socket) => {
   socket.on("newProduct", async (prod) => {
-    await productManager.addProduct(prod);
-    const products = await productManager.getProducts();
+    await prodDao.addProduct(prod);
+    const products = await prodDao.getProducts();
     socketIoServer.emit("products", products);
   });
+
+  socket.on('sessionInitiated', ()=>{
+    const data = userService.infoSession();
+    socketIoServer.emit('infoSession')
+  })
 
   socket.on("newUser", (user) => {
     console.log(`> ${user} ha iniciado sesión`);
@@ -79,8 +83,8 @@ socketIoServer.on("connection", (socket) => {
   });
 
   socket.on("chat:message", async (msg) => {
-    await service.createMsg(msg);
-    socketIoServer.emit("messages", await service.getAllMsg());
+    await msgService.createMsg(msg);
+    socketIoServer.emit("messages", await msgService.getAllMsg());
   });
 
   socket.on("chat:typing", (data) => {

@@ -5,7 +5,7 @@ import { validateLogin } from "../middlewares/validateLogin.js";
 
 router.post("/login", controller.logIn);
 router.post('/register', controller.register)
-router.get("/secret-endpoint", validateLogin, controller.visit);
-router.post("/logout", controller.logout);
+router.get("/info", validateLogin, controller.getSessionInfo);
+router.get("/logout", controller.logout);
 
 export default router;
