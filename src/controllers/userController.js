@@ -1,4 +1,5 @@
 import * as service from "../services/userServices.js";
+import { creatHash, isValidPassword } from "../utils.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -6,13 +7,17 @@ export const register = async (req, res, next) => {
     if (service.checkingAdmin(email, password)) {
       const user = await service.register({
         ...req.body,
+        password: creatHash(password),
         role: "admin",
       });
       if (!user) res.status(401).json({ msg: "User already exist!" });
       else res.redirect("/login");
     }
-    console.log(req.body)
-    const user = await service.register(req.body);
+    console.log(req.body);
+    const user = await service.register({
+      ...req.body,
+      password: creatHash(password),
+    });
     if (!user) res.status(401).json({ msg: "User already exist!" });
     else res.redirect("/views/login");
   } catch (error) {
@@ -22,9 +27,10 @@ export const register = async (req, res, next) => {
 
 export const logIn = async (req, res, next) => {
   try {
-    const user = await service.logIn(req.body);
-    if (!user) res.status(401).json({ msg: "No estás registrado" });
-    else {
+    const { email, password } = req.body;
+    const user = await service.logIn(email);
+    if (!user) res.status(401).json({ msg: "Autenticación fallida" });
+    if (isValidPassword(password, user.password)) {
       req.session.info = {
         loggedIn: true,
         contador: 1,
@@ -33,19 +39,19 @@ export const logIn = async (req, res, next) => {
         role: user.role,
       };
       res.redirect("/views/realTimeProducts");
-    }
+    } else res.status(401).json({ msg: "Autenticación fallida" });
   } catch (error) {
     throw new Error(error);
   }
 };
 
 export const getSessionInfo = (req, res) => {
-    res.json({
-      userName: req.session.info.userName,
-      userMail: req.session.info.userMail,
-      role: req.session.info.role,
-      contador: req.session.info.contador,
-    });
+  res.json({
+    userName: req.session.info.userName,
+    userMail: req.session.info.userMail,
+    role: req.session.info.role,
+    contador: req.session.info.contador,
+  });
 };
 
 export const logout = (req, res) => {
@@ -55,4 +61,4 @@ export const logout = (req, res) => {
 
 export const visit = (req, res) => {
   req.session.info && req.session.info.contador++;
-}
+};

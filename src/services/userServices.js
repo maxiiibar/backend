@@ -14,9 +14,9 @@ export const register = async (user) => {
     }
 };
 
-export const logIn = async (userLogIn) => {
+export const logIn = async (email) => {
     try {
-        return await userDao.logIn(userLogIn);
+        return await userDao.logIn(email);
     } catch (error) {
         throw new Error(error);
     }

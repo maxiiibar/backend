@@ -12,9 +12,9 @@ export default class UserDaoMongoDB {
     }
   }
 
-  async logIn(userLogIn) {
+  async logIn(email) {
     try {
-        return await UserModel.findOne(userLogIn);
+        return await UserModel.findOne({email});
     } catch (error) {
         throw new Error(error);
     }

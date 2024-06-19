@@ -11,7 +11,7 @@ import viewsRouter from "./routes/viewsRouter.js";
 import morgan from "morgan";
 import ProductDaoMongoDB from "./daos/mongodb/productDao.js";
 import { Server } from "socket.io";
-import { __dirname } from "./path.js";
+import { __dirname } from "./utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { initMongoDB } from "./db/database.js";
 import * as msgService from "./services/messageServices.js"
