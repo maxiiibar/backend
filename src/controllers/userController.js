@@ -1,5 +1,5 @@
 import * as service from "../services/userServices.js";
-import { creatHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -7,7 +7,7 @@ export const register = async (req, res, next) => {
     if (service.checkingAdmin(email, password)) {
       const user = await service.register({
         ...req.body,
-        password: creatHash(password),
+        password: create(password),
         role: "admin",
       });
       if (!user) res.status(401).json({ msg: "User already exist!" });
@@ -16,7 +16,7 @@ export const register = async (req, res, next) => {
     console.log(req.body);
     const user = await service.register({
       ...req.body,
-      password: creatHash(password),
+      password: create(password),
     });
     if (!user) res.status(401).json({ msg: "User already exist!" });
     else res.redirect("/views/login");

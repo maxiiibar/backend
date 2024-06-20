@@ -83,7 +83,6 @@ export const updateProdQuantityFromCart = async (req, res, next) => {
     const { idCart } = req.params;
     const { idProd } = req.params;
     const { quantity } = req.body;
-    console.log(quantity)
     const response = await service.updateProdQuantityFromCart(idCart, idProd, quantity);
     if (!response)
       res.status(404).json({ msg: "Error updating quantity" });

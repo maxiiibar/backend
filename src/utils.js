@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 /**
  *  Función que realiza el hasheo de la contraseña a través del mecanismo "hashSync" de bcrypt
  * @param {string} password - Contraseña que se desea hashear
- * @returns  - Contraseña hasheada
+ * @returns - Contraseña hasheada
  */
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 

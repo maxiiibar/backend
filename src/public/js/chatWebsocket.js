@@ -1,5 +1,6 @@
 const socket = io();
 
+
 let user = null;
 
 if (!user) {
