@@ -16,7 +16,6 @@ const UsersSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true
     },
     password: {
         type: String,
@@ -25,6 +24,10 @@ const UsersSchema = new mongoose.Schema({
     role: {
         type: String,
         default: 'user'
+    },
+    isGitHub: {
+        type: Boolean,
+        default: false,
     }
 });
 

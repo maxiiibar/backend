@@ -1,64 +1,52 @@
-import * as service from "../services/userServices.js";
-import { createHash, isValidPassword } from "../utils.js";
+import * as services from "../services/userServices.js";
 
-export const register = async (req, res, next) => {
+export const registerResponse = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if (service.checkingAdmin(email, password)) {
-      const user = await service.register({
-        ...req.body,
-        password: create(password),
-        role: "admin",
-      });
-      if (!user) res.status(401).json({ msg: "User already exist!" });
-      else res.redirect("/login");
-    }
-    console.log(req.body);
-    const user = await service.register({
-      ...req.body,
-      password: create(password),
+    res.json({
+      msg: "Succesfully registered",
+      session: req.session,
     });
-    if (!user) res.status(401).json({ msg: "User already exist!" });
-    else res.redirect("/views/login");
   } catch (error) {
-    throw new Error(error);
+    next(error);
   }
 };
 
-export const logIn = async (req, res, next) => {
+export const loginResponse = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const user = await service.logIn(email);
+    let id = null;
+    if (req.session.passport && req.session.passport.user)
+      id = req.session.passport.user;
+    const user = await services.getUserById(id);
     if (!user) res.status(401).json({ msg: "Autenticación fallida" });
-    if (isValidPassword(password, user.password)) {
-      req.session.info = {
-        loggedIn: true,
-        contador: 1,
-        userMail: user.email,
-        userName: user.firstName,
-        role: user.role,
-      };
-      res.redirect("/views/realTimeProducts");
-    } else res.status(401).json({ msg: "Autenticación fallida" });
+    const { firstName, lastName, email, age, role } = user;
+    res.json({
+      msg: "Succesfully logged in",
+      user: {
+        firstName,
+        lastName,
+        email,
+        age,
+        role,
+      },
+    });
   } catch (error) {
-    throw new Error(error);
+    next(error);
   }
 };
 
-export const getSessionInfo = (req, res) => {
-  res.json({
-    userName: req.session.info.userName,
-    userMail: req.session.info.userMail,
-    role: req.session.info.role,
-    contador: req.session.info.contador,
-  });
-};
-
-export const logout = (req, res) => {
-  req.session.destroy();
-  res.send("session destroy");
-};
-
-export const visit = (req, res) => {
-  req.session.info && req.session.info.contador++;
+export const githubResponse = async (req, res, next) => {
+  try {
+    const { firstName, lastName, email, role } = req.user;
+    res.json({
+      msg: "Succesfully logged in with GITHUB",
+      user: {
+        firstName,
+        lastName,
+        email,
+        role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };

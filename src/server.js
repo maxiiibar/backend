@@ -46,7 +46,6 @@ app.set("views", __dirname + "/views");
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-// app.use("/realtimeproducts", realTimeProductsRouter);
 app.use("/chat", chatRouter);
 app.use('/users', userRouter);
 app.use('/views', viewsRouter);
