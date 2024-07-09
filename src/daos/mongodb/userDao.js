@@ -1,20 +1,9 @@
+import MongoDao from "./mongoDao.js";
 import { UserModel } from "./models/userModel.js";
 
-export default class UserDaoMongoDB {
-  async register(user) {
-    try {
-      return await UserModel.create(user);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async getById(id) {
-    try {
-      return await UserModel.findById(id);
-    } catch (error) {
-      throw new Error(error);
-    }
+export default class UserDaoMongoDB extends MongoDao {
+  constructor() {
+    super(UserModel);
   }
 
   async getByEmail(email) {

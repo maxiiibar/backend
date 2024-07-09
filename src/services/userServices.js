@@ -1,59 +1,57 @@
+import Services from "./classServices.js";
 import UserDaoMongoDB from "../daos/mongodb/userDao.js";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 import { createHash, isValidPassword } from "../utils.js";
 
 const userDao = new UserDaoMongoDB();
 
-export const getUserById = async (id) => {
-  try {
-    return await userDao.getById(id);
-  } catch (error) {
-    throw new Error(error);
+export default class UserService extends Services {
+  constructor() {
+    super(userDao);
   }
-};
 
-export const getUserByEmail = async (email) => {
-  try {
-    return await userDao.getByEmail(email);
-  } catch (error) {
-    throw new Error(error);
+  generateToken(user, time = "5m") {
+    const payLoad = {
+      userId: user._id,
+    };
+    return jwt.sign(payLoad, process.env.SECRET_KEY, { expiresIn: time });
   }
-};
 
-export const register = async (user) => {
-  try {
-    const { email, password } = user;
-    const existUser = await getUserByEmail(email);
-    if (!existUser) {
-      if (email === "adminCoder@coder.com" && password === "adminCoder123") {
-        const newUser = await userDao.register({
+  async register(user) {
+    try {
+      const { email, password } = user;
+      const userExists = await this.dao.getByEmail(email);
+      if (userExists) return null;
+      if (
+        email === process.env.EMAIL_ADMIN &&
+        password === process.env.PASS_ADMIN
+      ) {
+        const newUser = await this.dao.create({
           ...user,
           password: createHash(password),
           role: "admin",
         });
         return newUser;
-      } else {
-        const newUser = await userDao.register({
-          ...user,
-          password: createHash(password),
-        });
-        return newUser;
       }
-    } else return null;
-    return await userDao.register(user);
-  } catch (error) {
-    throw new Error(error);
+      const newUser = await this.dao.create({
+        ...user,
+        password: createHash(password),
+      });
+      return newUser;
+    } catch (error) {}
   }
-};
-
-export const login = async (user) => {
-  try {
-    const { email, password } = user;
-    const userExist = await services.getUserByEmail(email);
-    if (!userExist) return null;
-    const passwordValidated = isValidPassword(password, userExist.password);
-    if(!passwordValidated) return null;
-    return userExist;
-  } catch (error) {
-    throw new Error(error);
+  
+  async login(user) {
+    try {
+      const { email, password } = user;
+      const userExists = await this.dao.getByEmail(email);
+      if (!userExists) return null;
+      const passwordValidated = isValidPassword(password, userExists.password);
+      if (!passwordValidated) return null;
+      if(userExists && passwordValidated) return this.generateToken(userExists)
+    } catch (error) {
+      throw new Error(error);
+    }
   }
-};
+}

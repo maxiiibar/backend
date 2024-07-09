@@ -1,6 +1,5 @@
 import express from "express";
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import handlebars from "express-handlebars";
 import productsRouter from "./routes/productsRouter.js";
@@ -18,6 +17,8 @@ import * as msgService from "./services/messageServices.js"
 import * as userService from "./controllers/userController.js"
 import "dotenv/config";
 
+const app = express();
+
 const storeConfig = {
   store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
@@ -29,8 +30,6 @@ const storeConfig = {
   saveUninitialized: true,
   cookie: { maxAge: 180000 }
 };
-
-const app = express();
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
@@ -44,6 +43,9 @@ app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/chat", chatRouter);
@@ -56,10 +58,8 @@ if (process.env.PERSISTENCE == "MONGO") initMongoDB();
 
 const prodDao = new ProductDaoMongoDB();
 
-const PORT = 8080;
-
-const httpServer = app.listen(PORT, () =>
-  console.log(`Server ok en puerto ${PORT}`)
+const httpServer = app.listen(process.env.PORT, () =>
+  console.log(`Server ok en puerto ${process.env.PORT}`)
 );
 
 const socketIoServer = new Server(httpServer);

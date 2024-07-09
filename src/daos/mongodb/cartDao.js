@@ -1,26 +1,20 @@
+import MongoDao from "./mongoDao.js";
 import { CartModel } from "./models/cartModel.js";
-import ProductDaoMongoDB from "./productDao.js";
 
-const prodDao = new ProductDaoMongoDB();
+export default class CartDaoMongoDB extends MongoDao {
+  constructor() {
+    super(CartModel);
+  }
 
-export default class CartDaoMongoDB {
-  async addCart() {
+  async create() {
     try {
-      return await CartModel.create({ products: [] });
+      return await this.model.create({ products: [] });
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async getAllCarts() {
-    try {
-      return await CartModel.find({});
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async getCartById(id) {
+  async getById(id) {
     try {
       return await CartModel.findById(id).populate("products.product");
     } catch (error) {
@@ -39,7 +33,6 @@ export default class CartDaoMongoDB {
 
   async addProductToCart(idCart, idProduct, quantity) {
     try {
-      console.log(idCart, idProduct, quantity)
       const cart = await CartModel.findById(idCart);
       if (!cart) return null;
       const existProductIndex = cart.products.findIndex(
@@ -78,13 +71,6 @@ export default class CartDaoMongoDB {
     }
   }
 
-  async updateCart(id, obj) {
-    try {
-      return await CartModel.findByIdAndUpdate(id, obj, { new: true });
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
 
   async updateProdQuantityFromCart(idCart, idProduct, quantity) {
     try {
@@ -112,8 +98,8 @@ export default class CartDaoMongoDB {
 
   async checkCartAndProd(idCart, idProduct) {
     try {
-      const existCart = await CartModel.findById(idCart)
-      const existProd = await prodDao.getProductById(idProduct)
+      const existCart = await CartModel.findById(idCart);
+      const existProd = await prodDao.getProductById(idProduct);
       if (!existCart || !existProd) return null;
       return true;
     } catch (error) {
