@@ -19,3 +19,15 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
  */
 
 export const isValidPassword = (password, passwordHasheada) => bcrypt.compareSync(password, passwordHasheada);
+
+/**
+ * Función que crea la respuesta para la petición del controller
+ * @param {object} res - Objeto res
+ * @param {number} statusCode - Código de estado
+ * @param {object} data - Data que se va a devolver en la respuesta
+ * @returns - Respuesta en formato json
+ */
+
+export const createResponse = (res, statusCode, data) => {
+    return res.status(statusCode).json({data})
+}
