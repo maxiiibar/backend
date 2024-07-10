@@ -6,7 +6,7 @@ import { createHash, isValidPassword } from "../utils.js";
 
 const userDao = new UserDaoMongoDB();
 
-export default class UserService extends Services {
+export default class UserServices extends Services {
   constructor() {
     super(userDao);
   }

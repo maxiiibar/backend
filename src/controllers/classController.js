@@ -28,7 +28,7 @@ export default class Controllers {
   create = async (req, res, next) => {
     try {
       const response = await this.service.create(req.body);
-      if (!response) createResponse(res, 404, response);
+      if (!response) createResponse(res, 400, response);
       else createResponse(res, 200, response);
     } catch (error) {
       next(error);

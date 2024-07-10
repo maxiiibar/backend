@@ -1,4 +1,14 @@
-import * as services from "../services/userServices.js";
+import UserServices from "../services/userServices";
+import Controllers from "./classController";
+import { createResponse } from "../utils";
+
+const userService = new UserServices();
+
+export default class UserController extends Controllers {
+  constructor(){
+    super(userService)
+  }
+}
 
 export const registerResponse = async (req, res, next) => {
   try {

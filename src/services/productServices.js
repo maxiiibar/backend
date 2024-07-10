@@ -6,7 +6,7 @@ const prodDao = new ProductDaoMongoDB();
 // import ProductDaoFS from '../daoS/filesystem/products/productDao.js';
 // const prodDao = new ProductDaoFS(`${__dirname}/daos/filesystem/products/products.json`);
 
-export default class ProductService extends Services {
+export default class ProductServices extends Services {
   constructor() {
     super(prodDao);
   }
