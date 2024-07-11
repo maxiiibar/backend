@@ -5,18 +5,18 @@ const userServices = new UserServices();
 
 const strategyConfig = {
     usernameField: 'email',
-    passportField: 'password',
-    passReqToCallback: true
+    passwordField: 'password',
+      passReqToCallback: true,
 }
 
 const signUp = async (req, email, password, done) => {
     try {
-        const user = await userServices.getUserByEmail(email);
+        const user = await userServices.getByEmail(email);
+        console.log(user);
         if (user) return done(null, false);
         const newUser = await userServices.register(req.body);
         return done(null, newUser);
     } catch (error) {
-        console.log(error);
         return done(error);
     }
 };
@@ -24,10 +24,6 @@ const signUp = async (req, email, password, done) => {
 const login = async (req, email, password, done) => {
     try {
         const userlogin = await userServices.login({email, password});
-        if (!userlogin){
-            req.session.destroy();
-            return done(null, false);
-        }
         return done(null, userlogin);
     } catch (error) {
         console.log(error)

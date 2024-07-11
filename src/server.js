@@ -1,6 +1,5 @@
 import express from "express";
 import cookieParser from 'cookie-parser';
-import MongoStore from 'connect-mongo';
 import handlebars from "express-handlebars";
 import productsRouter from "./routes/productsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
@@ -32,7 +31,6 @@ app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);

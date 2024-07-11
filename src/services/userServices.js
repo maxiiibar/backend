@@ -54,4 +54,14 @@ export default class UserServices extends Services {
       throw new Error(error);
     }
   }
+
+  async getByEmail (email) {
+    try {
+      const user = await this.dao.getByEmail(email)
+      if(!user) return null
+      return user
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
 }

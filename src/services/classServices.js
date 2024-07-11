@@ -1,6 +1,6 @@
 export default class Services {
   constructor(dao) {
-    this.dao;
+    this.dao = dao;
   }
 
   async getAll() {

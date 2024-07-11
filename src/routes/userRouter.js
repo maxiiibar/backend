@@ -5,19 +5,19 @@ const router = Router();
 import UserController from "../controllers/userController.js";
 const userController = new UserController();
 
-router.post(
+router.get(
   "/login",
-  passport.authenticate("login"),
+  passport.authenticate("login", { session: false }),
   userController.loginResponse
 );
-router.post(
+router.get(
   "/register",
-  passport.authenticate("register"),
+  passport.authenticate("register", { session: false }),
   userController.registerResponse
 );
 router.get("/profile", checkAuth, userController.profile);
 router.post("/logout", (req, res) => {
-  res.clearCookie("token"); // Elimina la cookie 'token'
+  res.clearCookie("token");
   res.json({ msg: "Logged out successfully" });
 });
 

@@ -15,7 +15,7 @@ export const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) return res.status(403).json({ msg: "Unauthorized" });
-    const decode = jwt.verify(token, process.env.SECRET_KEY_JWT);
+    const decode = jwt.verify(token, process.env.SECRET_KEY);
     const user = await userServices.getById(decode.userId);
     if (!user) res.status(404).json({ msg: "User not found" });
     const now = Math.floor(Date.now() / 1000);

@@ -10,7 +10,7 @@ export default class UserController extends Controller {
 
   registerResponse = async (req, res, next) => {
     try {
-      const token = generateToken(req.user);
+      const token = this.service.generateToken(req.user);
       res.cookie("token", token, { httpOnly: true, secure: true });
       res.json({
         msg: "Successfully registered",
@@ -24,7 +24,7 @@ export default class UserController extends Controller {
 
   loginResponse = async (req, res, next) => {
     try {
-      const token = generateToken(req.user);
+      const token = this.service.generateToken(req.user);
       if (!token) createResponse(res, 401, {msg: 'Failed authentication'})
       res.cookie('token', token, { httpOnly: true, secure: true });
       const { firstName, lastName, email, age, role } = req.user;
