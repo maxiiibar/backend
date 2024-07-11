@@ -48,6 +48,7 @@ export default class UserServices extends Services {
       const userExists = await this.dao.getByEmail(email);
       if (!userExists) return null;
       const passwordValidated = isValidPassword(password, userExists.password);
+
       if (!passwordValidated) return null;
       if(userExists && passwordValidated) return this.generateToken(userExists)
     } catch (error) {

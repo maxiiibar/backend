@@ -12,7 +12,6 @@ const strategyConfig = {
 const signUp = async (req, email, password, done) => {
     try {
         const user = await userServices.getByEmail(email);
-        console.log(user);
         if (user) return done(null, false);
         const newUser = await userServices.register(req.body);
         return done(null, newUser);
@@ -26,7 +25,6 @@ const login = async (req, email, password, done) => {
         const userlogin = await userServices.login({email, password});
         return done(null, userlogin);
     } catch (error) {
-        console.log(error)
         return done(error)
     }
 }

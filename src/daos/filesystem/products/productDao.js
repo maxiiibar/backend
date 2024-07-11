@@ -6,7 +6,7 @@ export default class ProductDaoFS {
     this.path = path;
   }
 
-  async addProduct(obj) {
+  async create(obj) {
     try {
       const product = {
         id: uuidv4(),
@@ -21,7 +21,7 @@ export default class ProductDaoFS {
     }
   }
 
-  async getProducts() {
+  async getAll() {
     try {
       if (fs.existsSync(this.path)) {
         const products = await fs.promises.readFile(this.path, "utf8");
@@ -32,7 +32,7 @@ export default class ProductDaoFS {
     }
   }
 
-  async getProductById(id) {
+  async getById(id) {
     try {
       const products = await this.getProducts();
       const productExist = products.find((element) => element.id === id);
@@ -43,7 +43,7 @@ export default class ProductDaoFS {
     }
   }
 
-  async updateProduct(id, obj) {
+  async update(id, obj) {
     try {
       const products = await this.getProducts();
       let productExist = await this.getProductById(id);
@@ -58,7 +58,7 @@ export default class ProductDaoFS {
     }
   }
 
-  async deleteProduct(id) {
+  async delete(id) {
     const products = await this.getProducts();
     if (products.length > 0) {
       const productExist = await this.getProductById(id);

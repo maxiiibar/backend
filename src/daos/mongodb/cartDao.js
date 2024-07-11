@@ -22,15 +22,6 @@ export default class CartDaoMongoDB extends MongoDao {
     }
   }
 
-  async deleteCart(id) {
-    try {
-      const response = await CartModel.findByIdAndDelete(id);
-      return response;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
   async addProductToCart(idCart, idProduct, quantity) {
     try {
       const cart = await CartModel.findById(idCart);
