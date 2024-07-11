@@ -2,7 +2,7 @@ import Services from "./classServices.js";
 import CartDaoMongoDB from "../daos/mongodb/cartDao.js";
 const cartDao = new CartDaoMongoDB();
 
-export default class CartService extends Services {
+export default class CartServices extends Services {
   constructor() {
     super(cartDao);
   }

@@ -1,12 +1,24 @@
 import { Router } from "express";
-const router = Router();
-import * as controller from "../controllers/userController.js";
-import { isAuth } from "../middlewares/isAuth.js";
+import { checkAuth } from "../middlewares/authJwt.js";
 import passport from "passport";
+const router = Router();
+import UserController from "../controllers/userController.js";
+const userController = new UserController();
 
-router.post("/login", passport.authenticate('register'), );
-router.post('/register', controller.register)
-router.get("/info", isAuth, controller.getSessionInfo);
-router.get("/logout", controller.logout);
+router.post(
+  "/login",
+  passport.authenticate("login"),
+  userController.loginResponse
+);
+router.post(
+  "/register",
+  passport.authenticate("register"),
+  userController.registerResponse
+);
+router.get("/profile", checkAuth, userController.profile);
+router.post("/logout", (req, res) => {
+  res.clearCookie("token"); // Elimina la cookie 'token'
+  res.json({ msg: "Logged out successfully" });
+});
 
 export default router;

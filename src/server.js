@@ -13,23 +13,12 @@ import { Server } from "socket.io";
 import { __dirname } from "./utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { initMongoDB } from "./db/database.js";
-import * as msgService from "./services/messageServices.js"
-import * as userService from "./controllers/userController.js"
+import MessageServices from "./services/messageServices.js";
+const msgServices = new MessageServices();
+import passport from "./passport/passportConfig.js"
 import "dotenv/config";
 
 const app = express();
-
-const storeConfig = {
-  store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
-      crypto: { secret: process.env.SECRET_KEY },
-      ttl: 180,
-  }),
-  secret: process.env.SECRET_KEY,
-  resave: true,
-  saveUninitialized: true,
-  cookie: { maxAge: 180000 }
-};
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
@@ -37,7 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.use(cookieParser());
-app.use(session(storeConfig));
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
@@ -71,19 +59,14 @@ socketIoServer.on("connection", (socket) => {
     socketIoServer.emit("products", products);
   });
 
-  socket.on('sessionInitiated', ()=>{
-    const data = userService.infoSession();
-    socketIoServer.emit('infoSession')
-  })
-
   socket.on("newUser", (user) => {
     console.log(`> ${user} ha iniciado sesión`);
     socket.broadcast.emit("newUser", user);
   });
 
   socket.on("chat:message", async (msg) => {
-    await msgService.createMsg(msg);
-    socketIoServer.emit("messages", await msgService.getAllMsg());
+    await msgServices.createMsg(msg);
+    socketIoServer.emit("messages", await msgServices.getAllMsg());
   });
 
   socket.on("chat:typing", (data) => {

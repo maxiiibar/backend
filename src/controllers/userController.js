@@ -1,62 +1,59 @@
-import UserServices from "../services/userServices";
-import Controllers from "./classController";
-import { createResponse } from "../utils";
-
+import Controller from "./classController.js";
+import UserServices from "../services/userServices.js";
+import { createResponse } from "../utils.js";
 const userService = new UserServices();
 
-export default class UserController extends Controllers {
-  constructor(){
-    super(userService)
+export default class UserController extends Controller {
+  constructor() {
+    super(userService);
   }
+
+  registerResponse = async (req, res, next) => {
+    try {
+      const token = generateToken(req.user);
+      res.cookie("token", token, { httpOnly: true, secure: true });
+      res.json({
+        msg: "Successfully registered",
+        user: req.user,
+        token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  loginResponse = async (req, res, next) => {
+    try {
+      const token = generateToken(req.user);
+      if (!token) createResponse(res, 401, {msg: 'Failed authentication'})
+      res.cookie('token', token, { httpOnly: true, secure: true });
+      const { firstName, lastName, email, age, role } = req.user;
+      res.json({
+        msg: 'Successfully logged in',
+        user: {
+          firstName,
+          lastName, 
+          email,
+          age,
+          role
+        },
+        token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  profile =(req, res, next)=>{
+    try {
+     if(req.user){
+      const { first_name, last_name, email, role } = req.user;
+      createResponse(res, 200, {
+        first_name, last_name, email, role
+      })
+     } else createResponse(res, 403, { msg: 'Unhautorized' })
+    } catch (error) {
+      next(error);
+    }
+  };
 }
-
-export const registerResponse = async (req, res, next) => {
-  try {
-    res.json({
-      msg: "Succesfully registered",
-      session: req.session,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const loginResponse = async (req, res, next) => {
-  try {
-    let id = null;
-    if (req.session.passport && req.session.passport.user)
-      id = req.session.passport.user;
-    const user = await services.getUserById(id);
-    if (!user) res.status(401).json({ msg: "Autenticación fallida" });
-    const { firstName, lastName, email, age, role } = user;
-    res.json({
-      msg: "Succesfully logged in",
-      user: {
-        firstName,
-        lastName,
-        email,
-        age,
-        role,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const githubResponse = async (req, res, next) => {
-  try {
-    const { firstName, lastName, email, role } = req.user;
-    res.json({
-      msg: "Succesfully logged in with GITHUB",
-      user: {
-        firstName,
-        lastName,
-        email,
-        role,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};

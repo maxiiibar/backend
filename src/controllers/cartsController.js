@@ -1,11 +1,11 @@
-import Controllers from "./classController.js";
-import CartService from "../services/cartServices.js";
+import Controller from "./classController.js";
+import CartServices from "../services/cartServices.js";
 import { createResponse } from "../utils.js";
-const cartService = new CartService();
+const cartServices = new CartServices();
 
-export default class CartController extends Controllers {
+export default class CartController extends Controller {
   constructor() {
-    super(cartService);
+    super(cartServices);
   }
 
   addProductToCart = async (req, res, next) => {

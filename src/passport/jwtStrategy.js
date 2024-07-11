@@ -1,6 +1,7 @@
 import passport from "passport";
 import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
-import * as services from "../services/userServices.js";
+import UserServices from "../services/userServices.js";
+const userServices = new UserServices();
 import "dotenv/config";
 
 const cookieExtractor = (req) => {
@@ -13,22 +14,9 @@ const strategyConfig = {
 };
 
 const verifyToken = async (jwt_payload, done) => {
-  const user = await services.getById(jwt_payload.userId);
+  const user = await userServices.getById(jwt_payload.userId);
   if (!user) return done(null, false);
   return done(null, user);
 };
 
-passport.use("jwtCookies", new jwtStrategy(strategyConfig, verifyToken));
-
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await services.getUserById(id);
-    return done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
+passport.use("jwt", new jwtStrategy(strategyConfig, verifyToken));

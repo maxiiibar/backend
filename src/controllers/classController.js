@@ -1,6 +1,6 @@
-import { createResponse } from "../utils";
+import { createResponse } from "../utils.js";
 
-export default class Controllers {
+export default class Controller {
   constructor(service) {
     this.service = service;
   }

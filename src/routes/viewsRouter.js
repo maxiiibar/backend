@@ -1,6 +1,4 @@
 import { Router } from "express";
-import { validateLogin } from "../middlewares/isAuth.js";
-import { visit } from "../controllers/userController.js";
 
 const router = Router();
 
@@ -12,13 +10,7 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-// router.get("/profile", (req, res) => {
-//     console.log(req.session)
-//   res.render("profile");
-// });
-
 router.get("/realTimeProducts", async (req, res) => {
-  visit(req, res)
   res.render("realTimeProducts");
 });
 
