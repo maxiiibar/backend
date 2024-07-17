@@ -2,7 +2,8 @@
 node_modules/
 
 #Ignorar archivo env
-.env
+.env.dev
+.env.prod
 
 # Ignorar archivos de configuración específicos de IDEs
 .vscode/

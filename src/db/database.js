@@ -1,14 +1,23 @@
 import mongoose from "mongoose";
-import 'dotenv/config'
+import config from "../../config.js";
 
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/backend-coderhouse'
+export default class ConnectMongoDB {
+  static #instance;
+  constructor() {
+    mongoose.set('strictQuery', false);
+    mongoose.connect(config.MONGO_URL)
+      .then(() => console.log("Conectado a MongoDB"))
+      .catch((error) => console.log(error));
+  }
 
-export const initMongoDB = async () => {
-    try {
-        mongoose.set('strictQuery', false);
-        await mongoose.connect(MONGO_URL);
-        console.log('Conectado a la DB de MONGODB');
-    } catch (error) {
-        console.log(error);
+  static getInstance() {
+    if (this.#instance) {
+      console.log("Ya está conectado a MongoDB!");
+      return this.#instance;
+    } else {
+      this.#instance = new ConnectMongoDB();
+      console.log("Conectado a MongoDB!");
+      return this.#instance;
     }
+  }
 }

@@ -12,7 +12,7 @@ import MessageServices from "./services/messageServices.js";
 const msgServices = new MessageServices();
 import Routes from "./routes/routes.js";
 const routes = new Routes();
-import "dotenv/config";
+import config from "../config.js";
 
 const app = express();
 
@@ -33,12 +33,12 @@ app.use("/api", routes.getRouter());
 
 app.use(errorHandler);
 
-if (process.env.PERSISTENCE == "MONGO") initMongoDB();
+if (config.PERSISTENCE == "MONGO") initMongoDB();
 
 const prodDao = new ProductDaoMongoDB();
 
-const httpServer = app.listen(process.env.PORT, () =>
-  console.log(`Server ok en puerto ${process.env.PORT}`)
+const httpServer = app.listen(config.PORT, () =>
+  console.log(`Server ok en puerto ${config.PORT}`)
 );
 
 const socketIoServer = new Server(httpServer);
