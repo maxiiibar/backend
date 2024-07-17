@@ -1,30 +1,27 @@
 import express from "express";
 import cookieParser from 'cookie-parser';
 import handlebars from "express-handlebars";
-import productsRouter from "./routes/productsRouter.js";
-import cartRouter from "./routes/cartRouter.js";
-import chatRouter from "./routes/messagesRouter.js";
-import userRouter from "./routes/userRouter.js";
-import viewsRouter from "./routes/viewsRouter.js";
 import morgan from "morgan";
-import ProductDaoMongoDB from "./daos/mongodb/productDao.js";
 import { Server } from "socket.io";
 import { __dirname } from "./utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { initMongoDB } from "./db/database.js";
+import passport from "./passport/passportConfig.js"
+import ProductDaoMongoDB from "./daos/mongodb/productDao.js";
 import MessageServices from "./services/messageServices.js";
 const msgServices = new MessageServices();
-import passport from "./passport/passportConfig.js"
+import Routes from "./routes/routes.js";
+const routes = new Routes();
 import "dotenv/config";
 
 const app = express();
 
-app.use(express.static(__dirname + "/public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
-
-app.use(cookieParser());
+app
+  .use(express.static(__dirname + "/public"))
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
+  .use(morgan("dev"))
+  .use(cookieParser())
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
@@ -32,11 +29,7 @@ app.set("views", __dirname + "/views");
 
 app.use(passport.initialize());
 
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartRouter);
-app.use("/chat", chatRouter);
-app.use('/users', userRouter);
-app.use('/views', viewsRouter);
+app.use("/api", routes.getRouter());
 
 app.use(errorHandler);
 
