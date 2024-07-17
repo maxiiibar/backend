@@ -1,12 +1,11 @@
 import express from "express";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
 import { Server } from "socket.io";
 import { __dirname } from "./utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { initMongoDB } from "./db/database.js";
-import passport from "./passport/passportConfig.js"
+import passport from "./passport/passportConfig.js";
 import ProductDaoMongoDB from "./daos/mongodb/productDao.js";
 import MessageServices from "./services/messageServices.js";
 const msgServices = new MessageServices();
@@ -21,7 +20,7 @@ app
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
-  .use(cookieParser())
+  .use(cookieParser());
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
@@ -32,8 +31,6 @@ app.use(passport.initialize());
 app.use("/api", routes.getRouter());
 
 app.use(errorHandler);
-
-if (config.PERSISTENCE == "MONGO") initMongoDB();
 
 const prodDao = new ProductDaoMongoDB();
 

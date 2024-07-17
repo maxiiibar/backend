@@ -5,7 +5,10 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon ."
+    "dev:mongo": "nodemon . dev mongo",
+    "dev:fs": "nodemon . dev fs",
+    "prod:mongo": "nodemon . prod mongo",
+    "prod:fs": "nodemon . prod fs"
   },
   "keywords": [],
   "author": "Maxi",

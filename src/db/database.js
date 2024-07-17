@@ -16,7 +16,6 @@ export default class ConnectMongoDB {
       return this.#instance;
     } else {
       this.#instance = new ConnectMongoDB();
-      console.log("Conectado a MongoDB!");
       return this.#instance;
     }
   }

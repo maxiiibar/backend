@@ -1,10 +1,9 @@
 import Services from "./classServices.js";
-import UserDaoMongoDB from "../daos/mongodb/userDao.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { createHash, isValidPassword } from "../utils.js";
-
-const userDao = new UserDaoMongoDB();
+import persistence from "../daos/persistence.js";
+const { userDao } = persistence;
 
 export default class UserServices extends Services {
   constructor() {
@@ -41,7 +40,7 @@ export default class UserServices extends Services {
       return newUser;
     } catch (error) {}
   }
-  
+
   async login(user) {
     try {
       const { email, password } = user;
@@ -50,19 +49,20 @@ export default class UserServices extends Services {
       const passwordValidated = isValidPassword(password, userExists.password);
 
       if (!passwordValidated) return null;
-      if(userExists && passwordValidated) return this.generateToken(userExists)
+      if (userExists && passwordValidated)
+        return this.generateToken(userExists);
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async getByEmail (email) {
+  async getByEmail(email) {
     try {
-      const user = await this.dao.getByEmail(email)
-      if(!user) return null
-      return user
+      const user = await this.dao.getByEmail(email);
+      if (!user) return null;
+      return user;
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
   }
 }

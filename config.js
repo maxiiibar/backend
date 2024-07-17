@@ -9,8 +9,8 @@ let PERSISTENCE = null;
 
 if (process.argv.slice(2)[1] == "mongo"){
   PERSISTENCE = "mongo"
-  if (ENV == "prod") MONGO_URL = process.env.MONGO_LOCAL_URL
-  else MONGO_URL = process.env.MONGO_ATLAS_URL
+  if (ENV == "prod") MONGO_URL = process.env.MONGO_ATLAS_URL
+  else MONGO_URL = process.env.MONGO_LOCAL_URL
 }
 else if (process.argv.slice(2)[1] == "fs"){
   PERSISTENCE = "fs"

@@ -1,6 +1,6 @@
 import Services from "./classServices.js";
-import CartDaoMongoDB from "../daos/mongodb/cartDao.js";
-const cartDao = new CartDaoMongoDB();
+import persistence from "../daos/persistence.js";
+const { cartDao } = persistence;
 
 export default class CartServices extends Services {
   constructor() {

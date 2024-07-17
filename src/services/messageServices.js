@@ -1,9 +1,9 @@
-import MessageMongoDB from "../daos/mongodb/messageDao.js";
 import Services from "./classServices.js";
-const messageDao = new MessageMongoDB();
+import persistence from "../daos/persistence.js";
+const { messageDao } = persistence;
 
 export default class MessageServices extends Services {
-  constructor(){
-    super(messageDao)
+  constructor() {
+    super(messageDao);
   }
 }
