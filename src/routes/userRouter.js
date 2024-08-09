@@ -15,7 +15,7 @@ router.get(
   passport.authenticate("register", { session: false }),
   userController.registerResponse
 );
-router.get("/profile", checkAuth, userController.profile);
+router.get("/current", checkAuth, userController.profile);
 router.post("/logout", (req, res) => {
   res.clearCookie("token");
   res.json({ msg: "Logged out successfully" });

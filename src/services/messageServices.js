@@ -1,6 +1,6 @@
 import Services from "./classServices.js";
-import persistence from "../daos/persistence.js";
-const { messageDao } = persistence;
+import factory from "../persistence/daos/factory.js";
+const { messageDao } = factory;
 
 export default class MessageServices extends Services {
   constructor() {

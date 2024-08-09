@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 import { __dirname } from "./utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import passport from "./passport/passportConfig.js";
-import ProductDaoMongoDB from "./daos/mongodb/productDao.js";
+import ProductDaoMongoDB from "./persistence/daos/mongodb/productDao.js";
 import MessageServices from "./services/messageServices.js";
 const msgServices = new MessageServices();
 import Routes from "./routes/routes.js";

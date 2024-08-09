@@ -1,6 +1,6 @@
 import Services from "./classServices.js";
-import persistence from "../daos/persistence.js";
-const { cartDao } = persistence;
+import factory from "../persistence/daos/factory.js"
+const { cartDao } = factory;
 
 export default class CartServices extends Services {
   constructor() {

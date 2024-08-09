@@ -2,8 +2,10 @@ import Services from "./classServices.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { createHash, isValidPassword } from "../utils.js";
-import persistence from "../daos/persistence.js";
-const { userDao } = persistence;
+import factory from "../persistence/daos/factory.js";
+import UserRepository from "../persistence/repository/userRepository.js";
+const userRepository = new UserRepository();
+const { userDao } = factory;
 
 export default class UserServices extends Services {
   constructor() {
@@ -61,6 +63,14 @@ export default class UserServices extends Services {
       const user = await this.dao.getByEmail(email);
       if (!user) return null;
       return user;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getUserById(id) {
+    try {
+      return await userRepository.getUserById(id);
     } catch (error) {
       throw new Error(error);
     }

@@ -4,9 +4,9 @@ import CartDaoMongoDB from "./mongodb/cartDao.js";
 import CartDaoFS from "./filesystem/carts/cartDao.js";
 import MessageDaoMongoDB from "./mongodb/messageDao.js";
 import UserDaoMongoDB from "./mongodb/userDao.js";
-import ConnectMongoDB from "../db/database.js";
-import config from "../../config.js";
-import { __dirname } from "../utils.js";
+import ConnectMongoDB from "../../db/database.js";
+import config from "../../../config.js";
+import { __dirname } from "../../utils.js";
 
 let userDao = null;
 let prodDao = null;
