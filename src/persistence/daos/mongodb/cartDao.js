@@ -1,4 +1,6 @@
 import MongoDao from "./mongoDao.js";
+import ProductDaoMongoDB from "./productDao.js";
+const prodDao = new ProductDaoMongoDB()
 import { CartModel } from "./models/cartModel.js";
 
 export default class CartDaoMongoDB extends MongoDao {
@@ -90,7 +92,7 @@ export default class CartDaoMongoDB extends MongoDao {
   async checkCartAndProd(idCart, idProduct) {
     try {
       const existCart = await CartModel.findById(idCart);
-      const existProd = await prodDao.getProductById(idProduct);
+      const existProd = await prodDao.getById(idProduct);
       if (!existCart || !existProd) return null;
       return true;
     } catch (error) {

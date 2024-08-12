@@ -45,7 +45,7 @@ export default class Services {
 
   async deleteAll() {
     try {
-      return await this.dao.delteAll();
+      return await this.dao.deleteAll();
     } catch (error) {
       throw new Error(error);
     }

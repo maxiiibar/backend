@@ -37,11 +37,17 @@ export default class CartController extends Controller {
       const { idCart } = req.params;
       const { idProd } = req.params;
       const { quantity } = req.body;
-      const response = await this.service.updateProdQuantityFromCart(
+      let response
+      if(quantity == 0) {
+        response = await this.service.removeProdFromCart(idCart, idProd)
+      }
+      else {
+        response = await this.service.updateProdQuantityFromCart(
         idCart,
         idProd,
         quantity
       );
+    }
       if (!response) createResponse(res, 400, response);
       else createResponse(res, 200, response);
     } catch (error) {

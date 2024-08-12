@@ -45,7 +45,7 @@ export default class MongoDao {
 
   async deleteAll() {
     try {
-      return await this.model.colecction.drop();
+      return await this.model.collection.drop();
     } catch (error) {
       throw new Error(error);
     }

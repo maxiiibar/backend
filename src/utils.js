@@ -25,7 +25,7 @@ export const isValidPassword = (password, passwordHasheada) => bcrypt.compareSyn
  * @param {object} res - Objeto res
  * @param {number} statusCode - Código de estado
  * @param {object} data - Data que se va a devolver en la respuesta
- * @returns - Respuesta en formato json
+ * @returns Respuesta en formato json
  */
 
 export const createResponse = (res, statusCode, data) => {
