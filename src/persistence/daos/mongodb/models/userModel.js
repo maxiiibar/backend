@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const UsersSchema = new mongoose.Schema({
     firstName: {
@@ -28,6 +28,11 @@ const UsersSchema = new mongoose.Schema({
     isGitHub: {
         type: Boolean,
         default: false,
+    },
+    cart: {
+        type: Schema.Types.ObjectId,
+        ref: "carts",
+        default: []
     }
 });
 

@@ -4,6 +4,7 @@ import CartDaoMongoDB from "./mongodb/cartDao.js";
 import CartDaoFS from "./filesystem/carts/cartDao.js";
 import MessageDaoMongoDB from "./mongodb/messageDao.js";
 import UserDaoMongoDB from "./mongodb/userDao.js";
+import TicketDaoMongoDB from "./mongodb/ticketDao.js";
 import ConnectMongoDB from "../../db/database.js";
 import config from "../../../config.js";
 import { __dirname } from "../../utils.js";
@@ -12,6 +13,7 @@ let userDao = null;
 let prodDao = null;
 let cartDao = null;
 let messageDao = null;
+let ticketDao = null;
 
 const persistence = config.PERSISTENCE;
 
@@ -30,6 +32,7 @@ switch (persistence) {
     prodDao = new ProductDaoMongoDB();
     messageDao = new MessageDaoMongoDB();
     cartDao = new CartDaoMongoDB();
+    ticketDao = new TicketDaoMongoDB();
     break;
   default:
     prodDao = new ProductDaoFS(
@@ -40,4 +43,4 @@ switch (persistence) {
 }
 
 
-export default { userDao, prodDao, messageDao, cartDao }
+export default { userDao, prodDao, messageDao, cartDao, ticketDao }
