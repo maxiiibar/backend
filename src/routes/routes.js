@@ -5,6 +5,7 @@ import MessageRouter from "./messageRouter.js";
 import UserRouter from "./userRouter.js";
 import ViewsRouter from "./viewsRouter.js";
 import TicketRouter from "./ticketRouter.js";
+import EmailRouter from "./emailRouter.js";
 
 export default class Routes {
   constructor() {
@@ -19,6 +20,7 @@ export default class Routes {
     this.router.use("/users", UserRouter);
     this.router.use("/views", ViewsRouter);
     this.router.use("/ticket", TicketRouter);
+    this.router.use("/email", EmailRouter);
   }
 
   getRouter() {
