@@ -5,6 +5,6 @@ export default class UserDTO {
         this.correo = user.email;
         this.edad = user.age;
         this.rol = user.role;
-        this.cart = user.cart;
+        this.carrito = user.cart;
     }
 }

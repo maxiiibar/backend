@@ -5,7 +5,7 @@ import { createHash, isValidPassword } from "../utils.js";
 import factory from "../persistence/daos/factory.js";
 import UserRepository from "../persistence/repository/userRepository.js";
 const userRepository = new UserRepository();
-const { userDao } = factory;
+const { userDao, cartDao } = factory;
 
 export default class UserServices extends Services {
   constructor() {
@@ -24,6 +24,7 @@ export default class UserServices extends Services {
       const { email, password } = user;
       const userExists = await this.dao.getByEmail(email);
       if (userExists) return null;
+      const cartUser = await cartDao.create();
       if (
         email === process.env.EMAIL_ADMIN &&
         password === process.env.PASS_ADMIN
@@ -32,14 +33,17 @@ export default class UserServices extends Services {
           ...user,
           password: createHash(password),
           role: "admin",
+          cart: cartUser._id,
+        });
+        return newUser;
+      } else {
+        const newUser = await this.dao.create({
+          ...user,
+          password: createHash(password),
+          cart: cartUser._id,
         });
         return newUser;
       }
-      const newUser = await this.dao.create({
-        ...user,
-        password: createHash(password),
-      });
-      return newUser;
     } catch (error) {}
   }
 

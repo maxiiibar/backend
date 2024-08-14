@@ -13,4 +13,12 @@ export default class UserDaoMongoDB extends MongoDao {
       throw new Error(error);
     }
   }
+
+  async getUserById(id){
+    try {
+        return await this.model.findById(id).populate("cart"); 
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 }

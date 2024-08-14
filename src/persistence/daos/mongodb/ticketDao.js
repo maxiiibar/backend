@@ -3,6 +3,6 @@ import { TicketModel } from "./models/ticketModel.js";
 
 export default class TicketDaoMongoDB extends MongoDao {
     constructor(){
-        super(TicketDaoMongoDB);
+        super(TicketModel);
     }
 }

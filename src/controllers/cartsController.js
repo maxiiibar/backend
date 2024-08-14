@@ -10,9 +10,9 @@ export default class CartController extends Controller {
 
   addProductToCart = async (req, res, next) => {
     try {
-      const { idCart } = req.params;
+      const { cart } = req.user;
       const { idProd } = req.params;
-      const response = await this.service.addProductToCart(idCart, idProd);
+      const response = await this.service.addProductToCart(cart, idProd);
       if (!response) createResponse(res, 404, response);
       else createResponse(res, 200, response);
     } catch (error) {

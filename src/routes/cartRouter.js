@@ -16,7 +16,7 @@ router.put("/:id", [checkAuth, checkAdmin], controller.update);
 
 router.delete("/:id", [checkAuth, checkAdmin], controller.delete);
 
-router.post("/:idCart/product/:idProd", [checkAuth], controller.addProductToCart);
+router.post("/product/:idProd", [checkAuth], controller.addProductToCart);
 
 router.put("/:idCart/product/:idProd", [checkAuth], controller.updateProdQuantityFromCart);
 

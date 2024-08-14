@@ -3,7 +3,7 @@ import TicketServices from "../services/ticketServices.js";
 import { createResponse } from "../utils.js";
 const ticketServices = new TicketServices();
 
-export default class TicketController extends Controllers {
+export default class TicketController extends Controller {
   constructor() {
     super(ticketServices);
   }

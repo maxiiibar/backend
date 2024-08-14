@@ -18,7 +18,7 @@ export default class CartDaoMongoDB extends MongoDao {
 
   async getById(id) {
     try {
-      return await CartModel.findById(id).populate("products.product");
+      return await this.model.findById(id).populate("products.product");
     } catch (error) {
       throw new Error(error);
     }
@@ -26,16 +26,20 @@ export default class CartDaoMongoDB extends MongoDao {
 
   async addProductToCart(idCart, idProduct, quantity) {
     try {
-      const cart = await CartModel.findById(idCart);
-      if (!cart) return null;
-      const existProductIndex = cart.products.findIndex(
-        (p) => p.product.toString() === idProduct
-      );
-      if (existProductIndex !== -1)
-        cart.products[existProductIndex].quantity = quantity;
-      else cart.products.push({ product: idProduct, quantity });
-      await cart.save();
-      return cart;
+      const existProdInCart = await this.existProductInCart(idCart, idProduct);
+        if(existProdInCart){
+          return await this.model.findOneAndUpdate(
+            { _id: idCart, 'products.product': idProduct },
+            { $set: { 'products.$.quantity': existProdInCart.products[0].quantity + 1 } },
+            { new: true }
+          );
+        } else {
+          return await this.model.findByIdAndUpdate(
+            idCart,
+            { $push: { products: { product: idProduct } } },
+            { new: true }
+          )
+        }
     } catch (error) {
       throw new Error(error);
     }
@@ -43,7 +47,7 @@ export default class CartDaoMongoDB extends MongoDao {
 
   async existProductInCart(idCart, idProduct) {
     try {
-      return await CartModel.findOne({
+      return await this.model.findOne({
         _id: idCart,
         products: { $elemMatch: { product: idProduct } },
       });
@@ -54,7 +58,7 @@ export default class CartDaoMongoDB extends MongoDao {
 
   async removeProdFromCart(idCart, idProduct) {
     try {
-      return await CartModel.findOneAndUpdate(
+      return await this.model.findOneAndUpdate(
         { _id: idCart },
         { $pull: { products: { product: idProduct } } },
         { new: true }
@@ -64,10 +68,20 @@ export default class CartDaoMongoDB extends MongoDao {
     }
   }
 
+  async update(id, obj) {
+    try {
+      const response = await this.model.findByIdAndUpdate(id, obj, {
+        new: true,
+      });
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
   async updateProdQuantityFromCart(idCart, idProduct, quantity) {
     try {
-      return await CartModel.findOneAndUpdate(
+      return await this.model.findOneAndUpdate(
         { _id: idCart, "products.product": idProduct },
         { $set: { "products.$.quantity": quantity } },
         { new: true }
@@ -79,7 +93,7 @@ export default class CartDaoMongoDB extends MongoDao {
 
   async clearCart(idCart) {
     try {
-      return await CartModel.findByIdAndUpdate(
+      return await this.model.findByIdAndUpdate(
         idCart,
         { $set: { products: [] } },
         { new: true }
@@ -91,7 +105,7 @@ export default class CartDaoMongoDB extends MongoDao {
 
   async checkCartAndProd(idCart, idProduct) {
     try {
-      const existCart = await CartModel.findById(idCart);
+      const existCart = await this.model.findById(idCart);
       const existProd = await prodDao.getById(idProduct);
       if (!existCart || !existProd) return null;
       return true;
