@@ -1,6 +1,6 @@
 import Controller from "./classController.js";
 import UserServices from "../services/userServices.js";
-import { createResponse } from "../utils.js";
+import { createResponse } from "../utils/utils.js";
 const userService = new UserServices();
 
 export default class UserController extends Controller {

@@ -1,7 +1,7 @@
 import Services from "./classServices.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 import factory from "../persistence/daos/factory.js";
 import UserRepository from "../persistence/repository/userRepository.js";
 const userRepository = new UserRepository();

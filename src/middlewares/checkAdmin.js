@@ -1,4 +1,4 @@
-import { createResponse } from "../utils.js";
+import { createResponse } from "../utils/utils.js";
 
 export const checkAdmin = async (req, res, next) => {
   try {

@@ -7,7 +7,7 @@ import UserDaoMongoDB from "./mongodb/userDao.js";
 import TicketDaoMongoDB from "./mongodb/ticketDao.js";
 import ConnectMongoDB from "../../db/database.js";
 import config from "../../../config.js";
-import { __dirname } from "../../utils.js";
+import { __dirname } from "../../utils/utils.js";
 
 let userDao = null;
 let prodDao = null;

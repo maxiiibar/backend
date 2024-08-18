@@ -1,6 +1,6 @@
 import config from "../../config.js";
 import { transporter } from "../services/emailServices.js";
-import { createResponse } from "../utils.js";
+import { createResponse } from "../utils/utils.js";
 
 export const sendMail = async(req, res, next) => {
     try {

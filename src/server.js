@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
 import { Server } from "socket.io";
-import { __dirname } from "./utils.js";
+import { __dirname } from "./utils/utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import passport from "./passport/passportConfig.js";
 import ProductDaoMongoDB from "./persistence/daos/mongodb/productDao.js";

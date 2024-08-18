@@ -1,6 +1,6 @@
 import Controller from "./classController.js";
 import TicketServices from "../services/ticketServices.js";
-import { createResponse } from "../utils.js";
+import { createResponse } from "../utils/utils.js";
 const ticketServices = new TicketServices();
 
 export default class TicketController extends Controller {
