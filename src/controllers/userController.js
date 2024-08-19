@@ -26,7 +26,7 @@ export default class UserController extends Controller {
   loginResponse = async (req, res, next) => {
     try {
       const token = await this.service.login(req.body);
-      if (!token) createResponse(res, 401, {msg: 'Failed authentication'})
+      if (!token) httpResponse.Unauthorized(res, token)
       res.cookie('token', token, { httpOnly: true, secure: true });
       const user = await this.service.getByEmail(req.body.email)
       const { firstName, lastName, email, age, role } = user;
