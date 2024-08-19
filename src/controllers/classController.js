@@ -1,4 +1,5 @@
-import { createResponse } from "../utils/utils.js";
+import HttpResponse from "../utils/httpResponse.js";
+const httpResponse = new HttpResponse();
 
 export default class Controller {
   constructor(service) {
@@ -8,7 +9,7 @@ export default class Controller {
   getAll = async (req, res, next) => {
     try {
       const response = await this.service.getAll();
-      createResponse(res, 200, response);
+      httpResponse.Ok(res, response)
     } catch (error) {
       next(error);
     }
@@ -18,8 +19,8 @@ export default class Controller {
     try {
       const { id } = req.params;
       const response = await this.service.getById(id);
-      if (!response) createResponse(res, 404, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.NotFound(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -28,8 +29,8 @@ export default class Controller {
   create = async (req, res, next) => {
     try {
       const response = await this.service.create(req.body);
-      if (!response) createResponse(res, 400, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.BadRequest(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -39,8 +40,8 @@ export default class Controller {
     try {
       const { id } = req.params;
       const response = await this.service.update(id, req.body);
-      if (!response) createResponse(res, 404, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.NotFound(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -50,8 +51,8 @@ export default class Controller {
     try {
       const { id } = req.params;
       const response = await this.service.delete(id);
-      if (!response) createResponse(req, 404, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.NotFound(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -60,8 +61,8 @@ export default class Controller {
   deleteAll = async (req, res, next) => {
     try {
       const response = await this.service.deleteAll();
-      if (!response) createResponse(res, 404, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.NotFound(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }

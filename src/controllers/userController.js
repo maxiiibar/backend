@@ -1,7 +1,8 @@
 import Controller from "./classController.js";
 import UserServices from "../services/userServices.js";
-import { createResponse } from "../utils/utils.js";
 const userService = new UserServices();
+import HttpResponse from "../utils/httpResponse.js";
+const httpResponse = new HttpResponse();
 
 export default class UserController extends Controller {
   constructor() {
@@ -50,12 +51,8 @@ export default class UserController extends Controller {
      if(req.user){
       const { _id } = req.user;
       const user = await this.service.getUserById(_id);
-      createResponse(res, 200, user);
-      /* const { first_name, last_name, email, role } = req.user;
-      createResponse(res, 200, {
-        first_name, last_name, email, role
-      }) */
-     } else createResponse(res, 403, { msg: 'Unhautorized' })
+      httpResponse.Ok(res, user);
+     } else httpResponse.Unauthorized(res, user)
     } catch (error) {
       next(error);
     }

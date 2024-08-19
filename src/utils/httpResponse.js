@@ -1,22 +1,24 @@
 const HttpStatus = {
   OK: 200,
-  NOT_FOUND: 404,
+  BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
   FORBIDDEN: 403,
   INTERNAL_SERVER_ERROR: 500,
 };
 
 const errorsDictionary = {
   OK: "Request was successful.",
-  NOT_FOUND: "The requested resource was not found.",
+  BAD_REQUEST:"The request could not be understood or was missing required parameters.",
   UNAUTHORIZED:
-    "You are not authorized to access this resource. Please log in.",
+  "You are not authorized to access this resource. Please log in.",
+  NOT_FOUND: "The requested resource was not found.",
   FORBIDDEN: "Access to this resource is forbidden.",
   INTERNAL_SERVER_ERROR:
     "An internal server error occurred. Please try again later.",
 };
 
-export class HttpResponse {
+export default class HttpResponse {
   Ok(res, data) {
     return res.status(HttpStatus.OK).json({
       status: HttpStatus.OK,
@@ -25,12 +27,12 @@ export class HttpResponse {
     });
   }
 
-  NotFound(res, data) {
-    return res.status(HttpStatus.NOT_FOUND).json({
-      status: HttpStatus.NOT_FOUND,
-      message: errorsDictionary.NOT_FOUND,
+  BadRequest(res, data){
+    return res.status(HttpStatus.BAD_REQUEST).json({
+      status: HttpStatus.BAD_REQUEST,
+      message: errorsDictionary.BAD_REQUEST,
       data,
-    });
+    })
   }
 
   Unauthorized(res, data) {
@@ -38,6 +40,14 @@ export class HttpResponse {
       status: HttpStatus.UNAUTHORIZED,
       message: errorsDictionary.UNAUTHORIZED,
       error: data,
+    });
+  }
+
+  NotFound(res, data) {
+    return res.status(HttpStatus.NOT_FOUND).json({
+      status: HttpStatus.NOT_FOUND,
+      message: errorsDictionary.NOT_FOUND,
+      data,
     });
   }
 

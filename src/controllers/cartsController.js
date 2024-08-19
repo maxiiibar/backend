@@ -1,6 +1,7 @@
 import Controller from "./classController.js";
 import CartServices from "../services/cartServices.js";
-import { createResponse } from "../utils/utils.js";
+import HttpResponse from "../utils/httpResponse.js";
+const httpResponse = new HttpResponse()
 const cartServices = new CartServices();
 
 export default class CartController extends Controller {
@@ -13,8 +14,8 @@ export default class CartController extends Controller {
       const { cart } = req.user;
       const { idProd } = req.params;
       const response = await this.service.addProductToCart(cart, idProd);
-      if (!response) createResponse(res, 404, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.NotFound(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -25,8 +26,8 @@ export default class CartController extends Controller {
       const { idCart } = req.params;
       const { idProd } = req.params;
       const response = await this.service.removeProdFromCart(idCart, idProd);
-      if (!response) createResponse(res, 400, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.BadRequest(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -48,8 +49,8 @@ export default class CartController extends Controller {
         quantity
       );
     }
-      if (!response) createResponse(res, 400, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.BadRequest(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -59,8 +60,8 @@ export default class CartController extends Controller {
     try {
       const { idCart } = req.params;
       const response = await this.service.clearCart(idCart);
-      if (!response) createResponse(res, 400, response);
-      else createResponse(res, 200, response);
+      if (!response) httpResponse.BadRequest(res, response);
+      else httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }

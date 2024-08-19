@@ -1,7 +1,8 @@
 import Controller from "./classController.js";
 import ProductServices from "../services/productServices.js";
-import { createResponse } from "../utils/utils.js";
 const productServices = new ProductServices();
+import HttpResponse from "../utils/httpResponse.js";
+const httpResponse = new HttpResponse();
 
 export default class ProductController extends Controller {
   constructor() {
@@ -10,7 +11,7 @@ export default class ProductController extends Controller {
 
   createProductsMock = async (req, res, next) => {
     try {
-      createResponse(res, 200, await this.service.createProductsMock());
+      httpResponse.Ok(res, await this.service.createProductsMock());
     } catch (error) {
       next(error);
     }

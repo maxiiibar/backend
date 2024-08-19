@@ -1,6 +1,7 @@
 import config from "../../config.js";
 import { transporter } from "../services/emailServices.js";
-import { createResponse } from "../utils/utils.js";
+import HttpResponse from "../utils/httpResponse.js";
+const httpResponse = new HttpResponse();
 
 export const sendMail = async(req, res, next) => {
     try {
@@ -12,7 +13,7 @@ export const sendMail = async(req, res, next) => {
         }
         const response = transporter.sendMail(mailOptions);
         console.log('email enviado!')
-        createResponse(res, 200, response);
+        httpResponse.Ok(res, response);
     } catch (error) {
         next(error)
     }
