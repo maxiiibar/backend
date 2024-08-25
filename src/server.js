@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
+import logger from "./errors/devLogger.js";
 import { Server } from "socket.io";
 import { __dirname } from "./utils/utils.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -35,7 +36,7 @@ app.use(errorHandler);
 const prodDao = new ProductDaoMongoDB();
 
 const httpServer = app.listen(config.PORT, () =>
-  console.log(`Server ok en puerto ${config.PORT}`)
+  logger.info(`Server ok en puerto ${config.PORT}`)
 );
 
 const socketIoServer = new Server(httpServer);
@@ -48,7 +49,7 @@ socketIoServer.on("connection", (socket) => {
   });
 
   socket.on("newUser", (user) => {
-    console.log(`> ${user} ha iniciado sesión`);
+    logger.info(`> ${user} ha iniciado sesión`);
     socket.broadcast.emit("newUser", user);
   });
 

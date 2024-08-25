@@ -7,6 +7,7 @@ import ViewsRouter from "./viewsRouter.js";
 import TicketRouter from "./ticketRouter.js";
 import EmailRouter from "./emailRouter.js";
 import ProductMockRouter from "./productMockRouter.js";
+import LoggerRouter from "./loggerRouter.js";
 
 export default class Routes {
   constructor() {
@@ -23,6 +24,7 @@ export default class Routes {
     this.router.use("/ticket", TicketRouter);
     this.router.use("/email", EmailRouter);
     this.router.use("/mockingproducts", ProductMockRouter);
+    this.router.use("/loggertest", LoggerRouter);
   }
 
   getRouter() {

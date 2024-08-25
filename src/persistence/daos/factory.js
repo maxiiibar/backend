@@ -1,3 +1,4 @@
+import logger from "../../errors/devLogger.js";
 import ProductDaoMongoDB from "./mongodb/productDao.js";
 import ProductDaoFS from "./filesystem/products/productDao.js";
 import CartDaoMongoDB from "./mongodb/cartDao.js";
@@ -19,14 +20,14 @@ const persistence = config.PERSISTENCE;
 
 switch (persistence) {
   case "fs":
-    console.log(persistence);
+    logger.info(persistence);
     prodDao = new ProductDaoFS(
       __dirname + "/daos/filesystem/products/products.json"
     );
     cartDao = new CartDaoFS(__dirname + "/daos/filesystem/carts/carts.json");
     break;
   case "mongo":
-    console.log(persistence);
+    logger.info(persistence);
     ConnectMongoDB.getInstance();
     userDao = new UserDaoMongoDB();
     prodDao = new ProductDaoMongoDB();
