@@ -18,3 +18,4 @@ export const sendMail = async(req, res, next) => {
         next(error)
     }
 }
+

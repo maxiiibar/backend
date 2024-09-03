@@ -57,4 +57,16 @@ export default class UserController extends Controller {
       next(error);
     }
   };
+
+  generateResetPass = async(req, res, next) => {
+    try {
+      const user = req.user;
+      const token = await this.service.generateResetPass(user);
+      if(token){
+        await sendMail
+      }
+    } catch (error) {
+      
+    }
+  }
 }

@@ -79,4 +79,23 @@ export default class UserServices extends Services {
       throw new Error(error);
     }
   }
+
+  async generateResetPass(user) {
+    try {
+      return this.generateToken(user, "1h");
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async updatePass(pass, user) {
+    try {
+      const response = isValidPassword(pass, user);
+      if (response) return null;
+      const newPass = createHash(pass);
+      return await this.dao.update(user._id, { password: newPass });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

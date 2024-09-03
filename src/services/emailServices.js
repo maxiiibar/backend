@@ -10,3 +10,7 @@ export const transporter = createTransport({
     pass: config.PASS_GMAIL,
   },
 });
+
+const createMsgRegister = (firstName) => {
+  `<h1>¡Hola ${firstName}! Hacé click <a href="http://localhost:8080/new-pass">AQUÍ</a> </h1>`;
+}
