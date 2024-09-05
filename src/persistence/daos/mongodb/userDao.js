@@ -8,7 +8,7 @@ export default class UserDaoMongoDB extends MongoDao {
 
   async getByEmail(email) {
     try {
-      return await UserModel.findOne({ email });
+      return await this.model.findOne({ email });
     } catch (error) {
       throw new Error(error);
     }

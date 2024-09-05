@@ -88,4 +88,17 @@ export default class UserController extends Controller {
       next(error);
     }
   }
+
+  reverseRole = async(req, res, next) => {
+    try {
+      const { id } = req.params;
+      console.log(id)
+      const response = await this.service.reverseRole(id);
+      console.log(response)
+      if(!response) return httpResponse.NotFound(res, {id})
+      return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

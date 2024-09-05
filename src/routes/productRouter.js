@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkAdmin } from "../middlewares/checkAdmin.js";
+import { checkAdmin, checkPremium } from "../middlewares/checkRole.js";
 import { checkAuth } from "../middlewares/authJwt.js";
 import ProductController from "../controllers/productsController.js";
 const controller = new ProductController();
@@ -20,7 +20,7 @@ router.get("/home", [checkAuth], async (req, res, next) => {
 
 router.get("/:id", [checkAuth], controller.getById);
 
-router.post("/", [checkAuth, checkAdmin], controller.create);
+router.post("/", [checkAuth, checkPremium], controller.create);
 
 router.put("/:id", [checkAuth, checkAdmin], controller.update);
 

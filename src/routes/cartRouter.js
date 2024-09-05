@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/authJwt.js";
-import { checkAdmin } from "../middlewares/checkAdmin.js";
+import { checkAdmin } from "../middlewares/checkRole.js";
 import CartController from "../controllers/cartsController.js"
 const controller = new CartController();
 

@@ -98,4 +98,19 @@ export default class UserServices extends Services {
       throw new Error(error);
     }
   }
+
+  async reverseRole(id){
+    try {
+      const user = await this.dao.getUserById(id);
+      if(!user) return null;
+      if(user.role === "user"){
+        await this.dao.update(id, {role: "premium"})
+      } else{
+        await this.dao.update(id, {role: "user"})
+      }
+      return this.getUserById(id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
