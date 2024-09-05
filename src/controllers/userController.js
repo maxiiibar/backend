@@ -2,7 +2,7 @@ import Controller from "./classController.js";
 import UserServices from "../services/userServices.js";
 const userService = new UserServices();
 import HttpResponse from "../utils/httpResponse.js";
-import { token } from "morgan";
+import { sendMail } from "../services/emailServices.js";
 const httpResponse = new HttpResponse();
 
 export default class UserController extends Controller {
@@ -73,13 +73,13 @@ export default class UserController extends Controller {
     }
   };
 
-  async updatePass(req, res, next) {
+  updatePass = async(req, res, next) => {
     try {
       const user = req.user;
       const { password } = req.body;
       const { tokenpass } = req.cookies;
       if (!tokenpass) return httpResponse.Unauthorized(res, token);
-      const updPass = await userService.updatePass(password, user);
+      const updPass = await this.service.updatePass(password, user);
       if (!updPass)
         return httpResponse.BadRequest(res, "Can't be the same password");
       res.clearCookie("tokenpass");

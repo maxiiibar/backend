@@ -90,7 +90,7 @@ export default class UserServices extends Services {
 
   async updatePass(pass, user) {
     try {
-      const response = isValidPassword(pass, user);
+      const response = isValidPassword(pass, user.password);
       if (response) return null;
       const newPass = createHash(pass);
       return await this.dao.update(user._id, { password: newPass });
