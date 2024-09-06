@@ -20,4 +20,14 @@ export default class ProductServices extends Services {
       throw new Error(error);
     }
   };
+
+  delete = async (id, role, email) => {
+    try {
+      const prod = await this.getById(id);
+      if (role !== "admin" && email !== prod.owner) return null;
+      return await this.dao.delete(id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 }

@@ -15,20 +15,33 @@ export default class ProductController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
-  
-  create = async(req, res, next) => {
+  };
+
+  create = async (req, res, next) => {
     try {
-      const role = req.user.role;
       const obj = req.body;
       let response;
-      if(role==="premium") response = await this.service.create({...obj, owner: req.user.email});
+      if (req.user.role === "premium")
+        response = await this.service.create({ ...obj, owner: req.user.email });
       else response = await this.service.create(obj);
-      console.log(response);
-      if(!response) httpResponse.BadRequest(res, response);
-      httpResponse.Ok(res, response);
+      if (!response) return httpResponse.BadRequest(res, response);
+      return httpResponse.Ok(res, response);
     } catch (error) {
-      next(error)
+      next(error);
     }
-  }
-} 
+  };
+
+  delete = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const role = req.user.role;
+      const email = req.user.email;
+      const response = await this.service.delete(id, role, email);
+      if (!response)
+        return httpResponse.Unauthorized(res, "You are not the product owner.");
+      return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
+}

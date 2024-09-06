@@ -24,7 +24,7 @@ router.post("/", [checkAuth, checkPremium], controller.create);
 
 router.put("/:id", [checkAuth, checkAdmin], controller.update);
 
-router.delete("/:id", [checkAuth, checkAdmin], controller.delete);
+router.delete("/:id", [checkAuth, checkPremium], controller.delete);
 
 router.delete("/", [checkAuth, checkAdmin], controller.deleteAll);
 
