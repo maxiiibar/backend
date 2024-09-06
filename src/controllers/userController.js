@@ -73,32 +73,29 @@ export default class UserController extends Controller {
     }
   };
 
-  updatePass = async(req, res, next) => {
+  updatePass = async (req, res, next) => {
     try {
       const user = req.user;
       const { password } = req.body;
       const { tokenpass } = req.cookies;
       if (!tokenpass) return httpResponse.Unauthorized(res, token);
       const updPass = await this.service.updatePass(password, user);
-      if (!updPass)
-        return httpResponse.BadRequest(res, "Can't be the same password");
+      if (!updPass) httpResponse.BadRequest(res, "Can't be the same password");
       res.clearCookie("tokenpass");
-      return httpResponse.Ok(res, updPass);
+      httpResponse.Ok(res, updPass);
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  reverseRole = async(req, res, next) => {
+  reverseRole = async (req, res, next) => {
     try {
       const { id } = req.params;
-      console.log(id)
       const response = await this.service.reverseRole(id);
-      console.log(response)
-      if(!response) return httpResponse.NotFound(res, {id})
+      if (!response) return httpResponse.NotFound(res, { id });
       return httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
-  }
+  };
 }

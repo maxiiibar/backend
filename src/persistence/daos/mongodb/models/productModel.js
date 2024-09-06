@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import config from "../../../../../config.js";
 
 export const productsCollectionName = "products";
 
@@ -9,7 +8,7 @@ const ProductsSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
   category: { type: String, required: true },
-  owner: { type: String, required: false, default: config.EMAIL_ADMIN },
+  owner: { type: String, required: false, default: "admin" },
 });
 
 export const ProductModel = mongoose.model(

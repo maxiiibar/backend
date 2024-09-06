@@ -16,4 +16,19 @@ export default class ProductController extends Controller {
       next(error);
     }
   }
+  
+  create = async(req, res, next) => {
+    try {
+      const role = req.user.role;
+      const obj = req.body;
+      let response;
+      if(role==="premium") response = await this.service.create({...obj, owner: req.user.email});
+      else response = await this.service.create(obj);
+      console.log(response);
+      if(!response) httpResponse.BadRequest(res, response);
+      httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error)
+    }
+  }
 } 
