@@ -20,7 +20,7 @@ router.post("/product/:idProd", [checkAuth], controller.addProductToCart);
 
 router.put("/:idCart/product/:idProd", [checkAuth], controller.updateProdQuantityFromCart);
 
-router.delete("/:idCart/product/:idProd", [checkAuth], controller.removeProdFromCart);
+router.delete("/product/:idProd", [checkAuth], controller.removeProdFromCart);
 
 router.delete("/clear/:idCart", [checkAuth], controller.clearCart);
 

@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
+import HttpResponse from "../utils/httpResponse.js";
+const httpResponse = new HttpResponse();
 import UserService from "../services/userServices.js";
 const userServices = new UserService();
 import "dotenv/config";
+import logger from "../errors/devLogger.js";
 
 /**
  * Middleware que verifica el token de jwt es valido a través de las cookies
@@ -14,17 +17,17 @@ import "dotenv/config";
 export const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    if (!token) return res.status(403).json({ msg: "Unauthorized" });
+    if (!token) return httpResponse.Unauthorized(res, "You need to log.");
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     const user = await userServices.getById(decode.userId);
-    if (!user) res.status(404).json({ msg: "User not found" });
+    if (!user) return httpResponse.NotFound(res, "User not found");
     const now = Math.floor(Date.now() / 1000);
-    const tokenExp = decode.exp; 
+    const tokenExp = decode.exp;
     const timeUntilExp = tokenExp - now;
     if (timeUntilExp <= 300) {
       const newToken = userServices.generateToken(user, "5m");
-      console.log(">>>>>>SE REFRESCÓ EL TOKEN");
-      res.cookie('token', newToken, { httpOnly: true, secure: true });
+      logger.info(">>>>>>SE REFRESCÓ EL TOKEN");
+      res.cookie("token", newToken, { httpOnly: true, secure: true });
     }
     req.user = user;
     next();

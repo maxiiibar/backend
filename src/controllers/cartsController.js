@@ -9,13 +9,26 @@ export default class CartController extends Controller {
     super(cartServices);
   }
 
-  addProductToCart = async (req, res, next) => {
+  getById = async (req, res, next) => {
     try {
-      const { cart } = req.user;
-      const { idProd } = req.params;
-      const response = await this.service.addProductToCart(cart, idProd);
+      let { id } = req.params
+      if (id === "own") id=req.user.cart;
+      const response = await this.service.getById(id);
       if (!response) httpResponse.NotFound(res, response);
       else httpResponse.Ok(res, response);
+    } catch (error) {
+      
+    }
+  }
+
+  addProductToCart = async (req, res, next) => {
+    try {
+      const { cart, role, email } = req.user;
+      const { idProd } = req.params;
+      const response = await this.service.addProductToCart(cart, idProd, role, email);
+      if (!response) return httpResponse.NotFound(res, response);
+      else if (response === -1) return httpResponse.Unauthorized(res, "You can't add your own products.")
+      else return httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }
@@ -23,11 +36,12 @@ export default class CartController extends Controller {
 
   removeProdFromCart = async (req, res, next) => {
     try {
-      const { idCart } = req.params;
+      const { cart } = req.user;
+      console.log(cart);
       const { idProd } = req.params;
-      const response = await this.service.removeProdFromCart(idCart, idProd);
-      if (!response) httpResponse.BadRequest(res, response);
-      else httpResponse.Ok(res, response);
+      const response = await this.service.removeProdFromCart(cart, idProd);
+      if (!response) return httpResponse.BadRequest(res, response);
+      else return httpResponse.Ok(res, response);
     } catch (error) {
       next(error);
     }

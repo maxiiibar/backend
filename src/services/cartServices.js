@@ -7,13 +7,17 @@ export default class CartServices extends Services {
     super(cartDao);
   }
 
-  async addProductToCart(idCart, idProduct) {
+  async addProductToCart(idCart, idProduct, role, email) {
     try {
       const existCart = await this.dao.getById(idCart);
       if (!existCart) return null;
-  
+
       const existProd = await prodDao.getById(idProduct);
       if (!existProd) return null;
+
+      if(role !== "admin" && role === "premium"){
+        if(existProd.owner === email) return -1;
+      }
 
       return await this.dao.addProductToCart(idCart, idProduct);
     } catch (error) {
@@ -25,7 +29,7 @@ export default class CartServices extends Services {
     try {
       const existCart = await this.dao.getById(idCart);
       if(!existCart) return null;
-      const existProdInCart = await this.dao.existProdInCart(idCart, idProduct);
+      const existProdInCart = await this.dao.existProductInCart(idCart, idProduct);
       if (!existProdInCart) return null;
       return await this.dao.removeProdFromCart(idCart, idProduct);
     } catch (error) {
@@ -38,7 +42,7 @@ export default class CartServices extends Services {
       const existCart = await this.getById(idCart);
       if(!existCart) return null;
   
-      const existProdInCart = await this.dao.existProdInCart(idCart, idProduct);
+      const existProdInCart = await this.dao.existProductInCart(idCart, idProduct);
       if (!existProdInCart) return null;
   
       return await this.dao.updateProdQuantityFromCart(idCart, idProduct, quantity);
