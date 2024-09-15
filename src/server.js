@@ -1,10 +1,16 @@
 import express from "express";
+import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
-import logger from "./errors/devLogger.js";
-import { Server } from "socket.io";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
+import { info } from "./docs/info.js";
+const specs = swaggerJSDoc(info);
+
 import { __dirname } from "./utils/utils.js";
+import config from "../config.js";
+import logger from "./errors/devLogger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import passport from "./passport/passportConfig.js";
 import ProductDaoMongoDB from "./persistence/daos/mongodb/productDao.js";
@@ -12,11 +18,12 @@ import MessageServices from "./services/messageServices.js";
 const msgServices = new MessageServices();
 import Routes from "./routes/routes.js";
 const routes = new Routes();
-import config from "../config.js";
+
 
 const app = express();
 
 app
+  .use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
   .use(express.static(__dirname + "/public"))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))

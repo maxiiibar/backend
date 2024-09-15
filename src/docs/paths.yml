@@ -1,0 +1,159 @@
+/carts:
+  get:
+    summary: "Get all carts"
+    description: "Retrieve a list of all carts."
+    responses:
+      200:
+        $ref: "#/components/responses/CartList"
+
+  post:
+    summary: "Create a new cart"
+    description: "Create a new cart."
+    requestBody:
+      $ref: "#/components/requestBodies/Cart"
+    responses:
+      201:
+        $ref: "#/components/responses/Cart"
+      400:
+        $ref: "#/components/responses/BadRequest"
+
+  delete:
+    summary: "Delete all carts"
+    description: "Delete all carts."
+    responses:
+      204:
+        description: "No content"
+      500:
+        $ref: "#/components/responses/ServerError"
+
+/carts/{cartId}:
+  get:
+    summary: "Get a cart by ID"
+    description: "Retrieve a specific cart by ID."
+    parameters:
+      - name: "cartId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    responses:
+      200:
+        $ref: "#/components/responses/Cart"
+      404:
+        $ref: "#/components/responses/NotFound"
+
+  put:
+    summary: "Update a cart by ID"
+    description: "Update a specific cart by ID."
+    parameters:
+      - name: "cartId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    requestBody:
+      $ref: "#/components/requestBodies/Cart"
+    responses:
+      200:
+        $ref: "#/components/responses/Cart"
+      400:
+        $ref: "#/components/responses/BadRequest"
+      404:
+        $ref: "#/components/responses/NotFound"
+
+  delete:
+    summary: "Delete a cart by ID"
+    description: "Delete a specific cart by ID."
+    parameters:
+      - name: "cartId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    responses:
+      204:
+        description: "No content"
+      404:
+        $ref: "#/components/responses/NotFound"
+      500:
+        $ref: "#/components/responses/ServerError"
+
+/products:
+  get:
+    summary: "Get all products"
+    description: "Retrieve a list of all products."
+    responses:
+      200:
+        $ref: "#/components/responses/ProductList"
+
+  post:
+    summary: "Create a new product"
+    description: "Create a new product."
+    requestBody:
+      $ref: "#/components/requestBodies/Product"
+    responses:
+      201:
+        $ref: "#/components/responses/Product"
+      400:
+        $ref: "#/components/responses/BadRequest"
+
+  delete:
+    summary: "Delete all products"
+    description: "Delete all products."
+    responses:
+      204:
+        description: "No content"
+      500:
+        $ref: "#/components/responses/ServerError"
+
+/products/{productId}:
+  get:
+    summary: "Get a product by ID"
+    description: "Retrieve a specific product by ID."
+    parameters:
+      - name: "productId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    responses:
+      200:
+        $ref: "#/components/responses/Product"
+      404:
+        $ref: "#/components/responses/NotFound"
+
+  put:
+    summary: "Update a product by ID"
+    description: "Update a specific product by ID."
+    parameters:
+      - name: "productId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    requestBody:
+      $ref: "#/components/requestBodies/Product"
+    responses:
+      200:
+        $ref: "#/components/responses/Product"
+      400:
+        $ref: "#/components/responses/BadRequest"
+      404:
+        $ref: "#/components/responses/NotFound"
+
+  delete:
+    summary: "Delete a product by ID"
+    description: "Delete a specific product by ID."
+    parameters:
+      - name: "productId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+    responses:
+      204:
+        description: "No content"
+      404:
+        $ref: "#/components/responses/NotFound"
+      500:
+        $ref: "#/components/responses/ServerError"

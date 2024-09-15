@@ -1,0 +1,116 @@
+CartList:
+  description: "List of all carts"
+  content:
+    application/json:
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/Cart"
+
+Cart:
+  description: "Single cart object"
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/Cart"
+
+ProductList:
+  description: "List of all products"
+  content:
+    application/json:
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/Product"
+
+Product:
+  description: "Single product object"
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/Product"
+
+BadRequest:
+  description: "Bad Request error"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+
+Unauthorized:
+  description: "Unauthorized error"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+
+NotFound:
+  description: "Not Found error"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+
+ServerError:
+  description: "Internal Server Error"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          status:
+            type: integer
+          message:
+            type: string
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              quantity:
+                type: number
+              product:
+                type: string
+                format: uuid
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: number
+        category:
+          type: string
+        owner:
+          type: string

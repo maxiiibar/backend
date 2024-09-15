@@ -1,0 +1,47 @@
+Cart:
+  description: "Cart object to be created or updated"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          products:
+            type: array
+            items:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                product:
+                  type: string
+                  format: uuid
+
+Product:
+  description: "Product object to be created or updated"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          price:
+            type: number
+          stock:
+            type: number
+          category:
+            type: string
+          owner:
+            type: string
+
+ProductQuantity:
+  description: "Product quantity to be updated in the cart"
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          quantity:
+            type: number
