@@ -1,6 +1,22 @@
 components:
   schema:
     Carts:
+      OkCartEmptyResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          message:
+            type: string
+            example: "Request was successful."
+          data:
+            type: object
+            example: {
+              products: [],
+              _id: "60d21b5267d0d8992e610c88",
+              __v: 0
+            }
       OkCartsResponse:
         type: object
         properties:
@@ -13,7 +29,24 @@ components:
           data:
             type: array
             items:
-              $ref: "#/components/parameters/schemas/Carts"
+              properties:
+                _id:
+                  type: string
+                  example: "bjhbfahfa9fnnann098899nf0d"
+                products:
+                  type: array
+                  description: "Lista de productos en el carrito."
+                  items:
+                    type: object
+                    properties:
+                      product:
+                        type: string
+                        description: "ID del producto."
+                        example: "60d21b5267d0d8992e610c88"
+                      quantity:
+                        type: integer
+                        description: "Cantidad del producto en el carrito."
+                        example: 2
       OkCartResponse:
         type: object
         properties:
@@ -35,4 +68,29 @@ components:
             type: string
             example: "The request could not be understood or was missing required parameters."
           data:
-            $ref: "#/components/parameters/schemas/Carts"
+            type: string
+            example: "Here will be the error message"
+      UnauthorizedCartResponse:
+        type: object
+        properties: 
+          status:
+            type: integer
+            example: 401
+          message:
+            type: string
+            example: "You are not authorized to access this resource."
+          data:
+            type: string
+            example: "You need to log."
+      InternalServerErrorCartResponse:
+        type: object
+        properties: 
+          status:
+            type: integer
+            example: 500
+          message:
+            type: string
+            example: "An internal server error occurred. Please try again later."
+          data:
+            type: string
+            example: "SyntaxError"

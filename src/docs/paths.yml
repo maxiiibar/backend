@@ -11,6 +11,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schema/Carts/OkCartsResponse'
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schema/Carts/UnauthorizedCartResponse'
         500:
           description: Error del servidor.
           content:
@@ -21,19 +27,13 @@ paths:
       tags:
       - Carts
       summary: Crear un carrito nuevo.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/parameters/schemas/Carts'
-        required: true
       responses:
         200:
           description: Carrito creado exitosamente.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartResponse'
+                $ref: '#/components/schema/Carts/OkCartEmptyResponse'
         400:
           description: Error en la solicitud.
           content:

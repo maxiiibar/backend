@@ -12,7 +12,7 @@ components:
             items:
               type: object
               properties:
-                productId:
+                product:
                   type: string
                   description: "ID del producto."
                   example: "60d21b5267d0d8992e610c88"

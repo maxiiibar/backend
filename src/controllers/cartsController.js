@@ -9,16 +9,6 @@ export default class CartController extends Controller {
     super(cartServices);
   }
 
-  getAll = async (req, res, next) => {
-    try {
-      if(!req.body){
-        throw new Error('cause: Body must be empty')
-      }
-    } catch (error) {
-      next(error)
-    }
-  };
-
   getById = async (req, res, next) => {
     try {
       let { id } = req.params;
