@@ -1,47 +1,56 @@
-Cart:
-  description: "Cart object to be created or updated"
-  content:
-    application/json:
-      schema:
+components:
+  parameters:
+    schemas:
+      Carts:
         type: object
+        required:
+          - products
         properties:
           products:
             type: array
+            description: "Lista de productos en el carrito."
             items:
               type: object
               properties:
-                quantity:
-                  type: number
-                product:
+                productId:
                   type: string
-                  format: uuid
-
-Product:
-  description: "Product object to be created or updated"
-  content:
-    application/json:
-      schema:
+                  description: "ID del producto."
+                  example: "60d21b5267d0d8992e610c88"
+                quantity:
+                  type: integer
+                  description: "Cantidad del producto en el carrito."
+                  example: 2
+      Products:
         type: object
+        required:
+          - name
+          - description
+          - price
+          - stock
+          - category
+          - owner
         properties:
           name:
             type: string
+            description: "Nombre del producto"
+            example: Micrófono HyperX QuadCast
           description:
             type: string
+            description: "Descripción del producto"
+            example: Micrófono HyperX QuadCast Condensador Bidireccional color negro. Recomendado para streaming, juegos, podcast, videollamadas, voces, instrumentos, discursos, locuciones, entrevistas.
           price:
-            type: number
+            type: 
+            description: "Precio del producto"
+            example: 350000
           stock:
-            type: number
+            type: 
+            description: "Cantidad de unidades disponibles del producto"
+            example: 50
           category:
             type: string
+            description: "Categoría del producto"
+            example: Micrófono
           owner:
             type: string
-
-ProductQuantity:
-  description: "Product quantity to be updated in the cart"
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          quantity:
-            type: number
+            description: "Propietario del producto"
+            example: admin

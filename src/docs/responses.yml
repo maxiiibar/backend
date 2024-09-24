@@ -1,116 +1,162 @@
-CartList:
-  description: "List of all carts"
-  content:
-    application/json:
-      schema:
-        type: array
-        items:
-          $ref: "#/components/schemas/Cart"
-
-Cart:
-  description: "Single cart object"
-  content:
-    application/json:
-      schema:
-        $ref: "#/components/schemas/Cart"
-
-ProductList:
-  description: "List of all products"
-  content:
-    application/json:
-      schema:
-        type: array
-        items:
-          $ref: "#/components/schemas/Product"
-
-Product:
-  description: "Single product object"
-  content:
-    application/json:
-      schema:
-        $ref: "#/components/schemas/Product"
-
-BadRequest:
-  description: "Bad Request error"
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          status:
-            type: integer
-          message:
-            type: string
-
-Unauthorized:
-  description: "Unauthorized error"
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          status:
-            type: integer
-          message:
-            type: string
-
-NotFound:
-  description: "Not Found error"
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          status:
-            type: integer
-          message:
-            type: string
-
-ServerError:
-  description: "Internal Server Error"
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          status:
-            type: integer
-          message:
-            type: string
-
 components:
-  schemas:
-    Cart:
-      type: object
-      properties:
-        _id:
-          type: string
-          format: uuid
-        products:
-          type: array
-          items:
-            type: object
-            properties:
-              quantity:
-                type: number
-              product:
-                type: string
-                format: uuid
-    Product:
-      type: object
-      properties:
-        _id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        description:
-          type: string
-        price:
-          type: number
-        stock:
-          type: number
-        category:
-          type: string
-        owner:
-          type: string
+  schema:
+    Products:
+      OkProductResponse:
+        description: "Producto devuelto con éxito."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 200
+                message:
+                  type: string
+                  example: "Request was successful."
+                data:
+                  $ref: "#/components/schemas/Products"
+      BadRequestProductResponse:
+        description: "La solicitud del producto no fue válida o faltan parámetros requeridos."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 400
+                message:
+                  type: string
+                  example: "The request could not be understood or was missing required parameters."
+                data:
+                  type: object
+                  description: "Detalles del error para el producto."
+      UnauthorizedProductResponse:
+        description: "No está autorizado para acceder a este producto."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 401
+                message:
+                  type: string
+                  example: "You are not authorized to access this resource."
+                error:
+                  type: object
+                  description: "Detalles sobre la falta de autorización para el producto."
+      NotFoundProductResponse:
+        description: "El producto solicitado no fue encontrado."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 404
+                message:
+                  type: string
+                  example: "The requested resource was not found."
+                data:
+                  type: object
+                  description: "Detalles adicionales sobre el producto no encontrado."
+      InternalServerErrorProductResponse:
+        description: "Ocurrió un error interno del servidor al procesar el producto."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 500
+                message:
+                  type: string
+                  example: "An internal server error occurred. Please try again later."
+                error:
+                  type: object
+                  description: "Detalles adicionales sobre el error interno del servidor."
+    Carts:
+      OkCartResponse:
+        description: "Carrito devuelto con éxito."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 200
+                message:
+                  type: string
+                  example: "Request was successful."
+                data:
+                  $ref: "#/components/schemas/Carts"
+      BadRequestCartResponse:
+        description: "La solicitud del carrito no fue válida o faltan parámetros requeridos."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 400
+                message:
+                  type: string
+                  example: "The request could not be understood or was missing required parameters."
+                data:
+                  type: object
+                  description: "Detalles del error para el carrito."
+      UnauthorizedCartResponse:
+        description: "No está autorizado para acceder a este carrito."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 401
+                message:
+                  type: string
+                  example: "You are not authorized to access this resource."
+                error:
+                  type: object
+                  description: "Detalles sobre la falta de autorización para el carrito."
+      NotFoundCartResponse:
+        description: "El carrito solicitado no fue encontrado."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 404
+                message:
+                  type: string
+                  example: "The requested resource was not found."
+                data:
+                  type: object
+                  description: "Detalles adicionales sobre el carrito no encontrado."
+      InternalServerErrorCartResponse:
+        description: "Ocurrió un error interno del servidor al procesar el carrito."
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: integer
+                  example: 500
+                message:
+                  type: string
+                  example: "An internal server error occurred. Please try again later."
+                error:
+                  type: object
+                  description: "Detalles adicionales sobre el error interno del servidor."
