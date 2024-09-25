@@ -18,12 +18,14 @@ router.delete("/:id", [checkAuth, checkAdmin], controller.delete);
 
 router.post("/product/:idProd", [checkAuth], controller.addProductToCart);
 
-router.put("/:idCart/product/:idProd", [checkAuth], controller.updateProdQuantityFromCart);
+router.post("/:idCart/product/:idProd", [checkAuth, checkAdmin], controller.addProductToCartAdmin);
+
+router.put("/product/:idProd", [checkAuth], controller.updateProdQuantityFromCart);
 
 router.delete("/product/:idProd", [checkAuth], controller.removeProdFromCart);
 
-router.delete("/clear/:idCart", [checkAuth], controller.clearCart);
+router.delete("/clear", [checkAuth], controller.clearCart)
 
-router.delete("/", [checkAuth, checkAdmin], controller.deleteAll);
+router.delete("/clear/:idCart", [checkAuth, checkAdmin], controller.clearCartAdmin);
 
 export default router

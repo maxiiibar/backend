@@ -39,14 +39,14 @@ components:
                   items:
                     type: object
                     properties:
-                      product:
-                        type: string
-                        description: "ID del producto."
-                        example: "60d21b5267d0d8992e610c88"
                       quantity:
                         type: integer
                         description: "Cantidad del producto en el carrito."
                         example: 2
+                      product:
+                        type: string
+                        description: "ID del producto."
+                        example: "60d21b5267d0d8992e610c88"
       OkCartResponse:
         type: object
         properties:
@@ -82,6 +82,18 @@ components:
           data:
             type: string
             example: "You need to log."
+      NotFoundCartResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 404
+          message:
+            type: string
+            example: "The requested resource was not found."
+          data:
+            type: string
+            example: "Here will be the error message"
       InternalServerErrorCartResponse:
         type: object
         properties: 
@@ -93,4 +105,4 @@ components:
             example: "An internal server error occurred. Please try again later."
           data:
             type: string
-            example: "SyntaxError"
+            example: "Here will be the error message"

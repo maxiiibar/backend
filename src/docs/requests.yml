@@ -19,7 +19,7 @@ components:
                 quantity:
                   type: integer
                   description: "Cantidad del producto en el carrito."
-                  example: 2
+                  example: 3
       Products:
         type: object
         required:

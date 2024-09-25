@@ -43,6 +43,28 @@ export default class CartController extends Controller {
     }
   };
 
+  addProductToCartAdmin = async (req, res, next) => {
+    try {
+      const { role, email } = req.user;
+      const { idProd, idCart } = req.params;
+      const response = await this.service.addProductToCart(
+        idCart,
+        idProd,
+        role,
+        email
+      );
+      if (!response) return httpResponse.NotFound(res, response);
+      else if (response === -1)
+        return httpResponse.Unauthorized(
+          res,
+          "You can't add products to the cart of the person who created them."
+        );
+      else return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   removeProdFromCart = async (req, res, next) => {
     try {
       const { cart } = req.user;
@@ -58,15 +80,15 @@ export default class CartController extends Controller {
 
   updateProdQuantityFromCart = async (req, res, next) => {
     try {
-      const { idCart } = req.params;
+      const { cart } = req.user;
       const { idProd } = req.params;
       const { quantity } = req.body;
       let response;
       if (quantity == 0) {
-        response = await this.service.removeProdFromCart(idCart, idProd);
+        response = await this.service.removeProdFromCart(cart, idProd);
       } else {
         response = await this.service.updateProdQuantityFromCart(
-          idCart,
+          cart,
           idProd,
           quantity
         );
@@ -79,6 +101,17 @@ export default class CartController extends Controller {
   };
 
   clearCart = async (req, res, next) => {
+    try {
+      const { cart } = req.user;
+      const response = await this.service.clearCart(cart);
+      if (!response) httpResponse.BadRequest(res, response);
+      else httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+  clearCartAdmin = async (req, res, next) => {
     try {
       const { idCart } = req.params;
       const response = await this.service.clearCart(idCart);

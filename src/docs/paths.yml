@@ -2,7 +2,7 @@ paths:
   /carts:
     get:
       tags:
-      - Carts
+        - Carts
       summary: Obtener todos los carritos.
       responses:
         200:
@@ -10,22 +10,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartsResponse'
+                $ref: "#/components/schema/Carts/OkCartsResponse"
         401:
           description: Persona no autorizada para acceder a este recurso.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/UnauthorizedCartResponse'
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
     post:
       tags:
-      - Carts
+        - Carts
       summary: Crear un carrito nuevo.
       responses:
         200:
@@ -33,40 +33,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartEmptyResponse'
+                $ref: "#/components/schema/Carts/OkCartEmptyResponse"
         400:
           description: Error en la solicitud.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/BadRequestCartResponse'
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
-    delete:
-          tags:
-          - Carts
-          summary: Eliminar todos los carritos.
-          responses:
-            200:
-              description: Todos los carritos eliminados exitosamente.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/OkCartResponse'
-            500:
-              description: Error del servidor.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
   /carts/{id}:
     get:
       tags:
-      - Carts
+        - Carts
       summary: Obtener un carrito por ID.
       parameters:
         - in: path
@@ -75,28 +58,35 @@ paths:
           description: ID del carrito.
           schema:
             type: string
+            example: 60d21b5267d0d8992e610c88
       responses:
         200:
           description: Carrito encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartResponse'
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
         404:
           description: Carrito no encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/NotFoundCartResponse'
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
     put:
       tags:
-      - Carts
+        - Carts
       summary: Actualizar un carrito por ID.
       parameters:
         - in: path
@@ -109,7 +99,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/parameters/schemas/Carts'
+              $ref: "#/components/parameters/schemas/Carts"
         required: true
       responses:
         200:
@@ -117,59 +107,65 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartResponse'
+                $ref: "#/components/schema/Carts/OkCartResponse"
         404:
           description: Carrito no encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/NotFoundCartResponse'
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         400:
           description: Error en la solicitud.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/BadRequestCartResponse'
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
     delete:
-          tags:
-          - Carts
-          summary: Eliminar un carrito por ID.
-          parameters:
-            - in: path
-              name: id
-              required: true
-              description: ID del carrito.
+      tags:
+        - Carts
+      summary: Eliminar un carrito por ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del carrito.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Carrito eliminado exitosamente.
+          content:
+            application/json:
               schema:
-                type: string
-          responses:
-            200:
-              description: Carrito eliminado exitosamente.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/OkCartResponse'
-            404:
-              description: Carrito no encontrado.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/NotFoundCartResponse'
-            500:
-              description: Error del servidor.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
   /carts/product/{idProd}:
     post:
       tags:
-      - Carts
+        - Carts
       summary: Agregar un producto al carrito.
       parameters:
         - in: path
@@ -178,73 +174,72 @@ paths:
           description: ID del producto.
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/parameters/schemas/Products'
-        required: true
       responses:
         200:
           description: Producto agregado al carrito con éxito.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartResponse'
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
         404:
           description: Producto o carrito no encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/NotFoundCartResponse'
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
     delete:
-          tags:
-          - Carts
-          summary: Eliminar un producto del carrito.
-          parameters:
-            - in: path
-              name: idProd
-              required: true
-              description: ID del producto.
-              schema:
-                type: string
-          responses:
-            200:
-              description: Producto eliminado del carrito con éxito.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/OkCartResponse'
-            404:
-              description: Producto o carrito no encontrado.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/NotFoundCartResponse'
-            500:
-              description: Error del servidor.
-              content:
-                application/json:
-                  schema:
-                    $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
-  /carts/{idCart}/product/{idProd}:
-    put:
       tags:
-      - Carts
-      summary: Actualizar la cantidad de un producto en el carrito.
+        - Carts
+      summary: Eliminar un producto del carrito.
       parameters:
         - in: path
-          name: idCart
+          name: idProd
           required: true
-          description: ID del carrito.
+          description: ID del producto.
           schema:
             type: string
+      responses:
+        200:
+          description: Producto eliminado del carrito con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        404:
+          description: Producto o carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
+    put:
+      tags:
+        - Carts
+      summary: Actualizar la cantidad de un producto en el carrito.
+      parameters:
         - in: path
           name: idProd
           required: true
@@ -267,23 +262,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartResponse'
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
         404:
           description: Carrito o producto no encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/NotFoundCartResponse'
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
   /carts/clear/{idCart}:
     delete:
       tags:
-      - Carts
+        - Carts
       summary: Limpiar un carrito.
       parameters:
         - in: path
@@ -298,16 +299,52 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/OkCartResponse'
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
         404:
           description: Carrito no encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/NotFoundCartResponse'
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         500:
           description: Error del servidor.
           content:
             application/json:
               schema:
-                $ref: '#/components/schema/Carts/InternalServerErrorCartResponse'
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
+  /carts/clear:
+    delete:
+      tags:
+        - Carts
+      summary: Limpiar un carrito.
+      responses:
+        200:
+          description: Carrito limpiado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
