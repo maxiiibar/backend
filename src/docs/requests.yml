@@ -54,3 +54,46 @@ components:
             type: string
             description: "Propietario del producto"
             example: admin
+      User:
+        type: object
+        required:
+          - firstName
+          - lastName
+          - gender
+          - email
+          - password
+        properties:
+          firstName:
+            type: string
+            description: firstName
+            example: Máximo
+          lastName:
+            type: string
+            description: lastName
+            example: Bär
+          gender:
+            type: string
+            description: gender
+            example: male
+          email:
+            type: string
+            description: email address
+            example: maximobar2003@gmail.com
+          password:
+            type: string
+            description: password
+            example: contraseña123
+      Login: 
+        type: object
+        required:   
+          - email
+          - password
+        properties:  
+          email:
+            type: string
+            description: Email del usuario 
+            example: maximobar2003@gmail.com
+          password:
+            type: string
+            description: Password del usuario
+            example: contraseña123

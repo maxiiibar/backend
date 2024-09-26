@@ -14,11 +14,8 @@ export default class UserController extends Controller {
     try {
       const token = this.service.generateToken(req.user);
       res.cookie("token", token, { httpOnly: true, secure: true });
-      res.json({
-        msg: "Successfully registered",
-        user: req.user,
-        token,
-      });
+      const user = req.user
+      return httpResponse.Ok(res, { user: user, token: token} )
     } catch (error) {
       next(error);
     }
@@ -31,8 +28,7 @@ export default class UserController extends Controller {
       res.cookie("token", token, { httpOnly: true, secure: true });
       const user = await this.service.getByEmail(req.body.email);
       const { firstName, lastName, email, age, role } = user;
-      res.json({
-        msg: "Successfully logged in",
+      httpResponse.Ok(res, {
         user: {
           firstName,
           lastName,

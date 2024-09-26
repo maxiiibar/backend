@@ -17,7 +17,7 @@ import logger from "../errors/devLogger.js";
 export const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    if (!token) return httpResponse.Unauthorized(res, "You need to log.");
+    if (!token) return httpResponse.Unauthorized(res, "You need to log in.");
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     const user = await userServices.getById(decode.userId);
     if (!user) return httpResponse.NotFound(res, "User not found");

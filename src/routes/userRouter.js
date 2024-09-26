@@ -6,13 +6,13 @@ const router = Router();
 import UserController from "../controllers/userController.js";
 const controller = new UserController();
 
-router.get(
+router.post(
   "/login",
   passport.authenticate("login", { session: false }),
   controller.loginResponse
 );
 
-router.get(
+router.post(
   "/register",
   passport.authenticate("register", { session: false }),
   controller.registerResponse

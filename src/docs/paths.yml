@@ -489,4 +489,249 @@ paths:
               schema:
                 $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
     post:
-      
+      tags:
+        - Products
+      summary: Crear un producto nuevo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/Products"
+      responses:
+        200:
+          description: Producto creado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/OkProductResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequestProductResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/UnauthorizedProductResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFoundProductResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
+    delete:
+      tags:
+        - Products
+      summary: Eliminar todos los productos.
+      responses:
+        200:
+          description: Productos eliminados correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/OkAllProductsDeletedResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequestProductResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/UnauthorizedProductResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFoundProductResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Obtener producto por id.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto.
+          schema:
+            type: string
+            example: 66f5685d92007b2a1e85c0b3
+      responses:
+        200:
+          description: Producto obtenido exitosamente por id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/OkProductResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequestProductResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/UnauthorizedProductResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFoundProductResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
+    put: 
+      tags:
+        - Products
+      summary: Actualizar producto.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto.
+          schema:
+            type: string
+            example: 66f5685d92007b2a1e85c0b3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/Products"
+      responses:
+        200:
+          description: Producto actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/OkProductResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequestProductResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/UnauthorizedProductResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFoundProductResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
+    delete:
+      tags:
+        - Products
+      summary: Eliminar un producto.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto.
+          schema:
+            type: string
+            example: 66f5685d92007b2a1e85c0b3
+      responses:
+        200:
+          description: Producto eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/OkProductResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequestProductResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/UnauthorizedProductResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFoundProductResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
+
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Registrarse.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/User"
+        required: true
+      responses:
+        200:
+          description: Registro realizado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/OkRegisterResponse"
+  /users/login:
+    post:
+      tags:
+        - Login
+      summary: Login de usuario.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/Login"
+        required: true
+      responses:
+        200:
+          description: Loggeo realizado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Login/OkLoginResponse"
