@@ -40,6 +40,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         500:
           description: Error del servidor.
           content:
@@ -72,6 +78,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Carrito no encontrado.
           content:
@@ -108,18 +120,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/OkCartResponse"
-        404:
-          description: Carrito no encontrado.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         400:
           description: Error en la solicitud.
           content:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
         500:
           description: Error del servidor.
           content:
@@ -150,6 +168,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Carrito no encontrado.
           content:
@@ -187,6 +211,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Producto o carrito no encontrado.
           content:
@@ -223,6 +253,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Producto o carrito no encontrado.
           content:
@@ -269,6 +305,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Carrito o producto no encontrado.
           content:
@@ -312,6 +354,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Producto o carrito no encontrado.
           content:
@@ -342,6 +390,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Carrito no encontrado.
           content:
@@ -379,6 +433,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/UnauthorizedCartResponse"
         404:
           description: Carrito no encontrado.
           content:
@@ -391,3 +451,42 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
+
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Obtener todos los productos.
+      responses:
+        200:
+          description: Lista de productos obtenida con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/OkProductsResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/BadRequestProductResponse"
+        401:
+          description: Persona no autorizada para acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/UnauthorizedProductResponse"
+        404:
+          description: Carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/NotFoundProductResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
+    post:
+      

@@ -106,3 +106,117 @@ components:
           data:
             type: string
             example: "Here will be the error message"
+
+    Products:
+      OkProductsResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          message:
+            type: string
+            example: "Request was successful."
+          data:
+            type: array
+            items:
+              properties:
+                _id:
+                  type: string
+                  description: "Id del producto."
+                  example: "66f5685d92007b2a1e85c0b3"
+                name:
+                  type: string
+                  description: "Nombre del producto."
+                  example: "Microfono Quadcast"
+                description:
+                  type: string
+                  description: "Descripción del producto"
+                  example: "Micrófono HyperX QuadCast Condensador Bidireccional color negro. Recomendado para streaming, juegos, podcast, videollamadas, voces, instrumentos, discursos, locuciones, entrevistas."
+                price:
+                  type: integer
+                  description: "Precio del producto."
+                  example: 250000
+                stock:
+                  type: integer
+                  description: "Cantidad disponible para la venta"
+                  example: 125
+                category:
+                  type: string
+                  description: "Categoría del producto"
+                  example: "Microfono"
+                owner:
+                  type: string
+                  description: "Persona que dió de alta el producto"
+                  example: "admin"
+      OkProductResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          message:
+            type: string
+            example: "Request was successful."
+          data:
+            $ref: "#/components/parameters/schemas/Products"
+      BadRequestProductResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 400
+          message:
+            type: string
+            example: "The request could not be understood or was missing required parameters."
+          data:
+            type: string
+            example: "Here will be the error message"
+      UnauthorizedProductResponse:
+        type: object
+        properties: 
+          status:
+            type: integer
+            example: 401
+          message:
+            type: string
+            example: "You are not authorized to access this resource."
+          data:
+            type: string
+            example: "You need to log."
+      NotFoundProductResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 404
+          message:
+            type: string
+            example: "The requested resource was not found."
+          data:
+            type: string
+            example: "Here will be the error message"
+      OkAllProductsDeletedResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          message:
+            type: string
+            example: "Request was successful."
+          data:
+            type: boolean
+            example: true
+      InternalServerErrorProductResponse:
+        type: object
+        properties: 
+          status:
+            type: integer
+            example: 500
+          message:
+            type: string
+            example: "An internal server error occurred. Please try again later."
+          data:
+            type: string
+            example: "Here will be the error message"
