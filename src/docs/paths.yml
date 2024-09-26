@@ -50,12 +50,12 @@ paths:
     get:
       tags:
         - Carts
-      summary: Obtener un carrito por ID.
+      summary: Obtener un carrito por ID u "own para obtener el propio".
       parameters:
         - in: path
-          name: id
+          name: id u "own"
           required: true
-          description: ID del carrito.
+          description: ID del carrito u "own".
           schema:
             type: string
             example: 60d21b5267d0d8992e610c88
@@ -281,11 +281,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
-  /carts/clear/{idCart}:
-    delete:
+  /carts/:idCart/product/{idProd}:
+    post:
       tags:
         - Carts
-      summary: Limpiar un carrito.
+      summary: Agregar un producto al carrito por params.
       parameters:
         - in: path
           name: idCart
@@ -293,6 +293,42 @@ paths:
           description: ID del carrito.
           schema:
             type: string
+        - in: path
+          name: idProd
+          required: true
+          description: ID del producto.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto agregado al carrito con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/OkCartResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/BadRequestCartResponse"
+        404:
+          description: Producto o carrito no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/NotFoundCartResponse"
+        500:
+          description: Error del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
+  /carts/clear/mycart:
+    delete:
+      tags:
+        - Carts
+      summary: Limpiar el carrito propio.
       responses:
         200:
           description: Carrito limpiado exitosamente.
@@ -318,11 +354,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
-  /carts/clear:
+  /carts/clear/{idCart}:
     delete:
       tags:
         - Carts
-      summary: Limpiar un carrito.
+      summary: Limpiar un carrito por params.
+      parameters:
+        - in: path
+          name: idCart
+          required: true
+          description: ID del carrito.
+          schema:
+            type: string
       responses:
         200:
           description: Carrito limpiado exitosamente.

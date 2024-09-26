@@ -24,7 +24,7 @@ router.put("/product/:idProd", [checkAuth], controller.updateProdQuantityFromCar
 
 router.delete("/product/:idProd", [checkAuth], controller.removeProdFromCart);
 
-router.delete("/clear", [checkAuth], controller.clearCart)
+router.delete("/clear/mycart", [checkAuth], controller.clearCart)
 
 router.delete("/clear/:idCart", [checkAuth, checkAdmin], controller.clearCartAdmin);
 
