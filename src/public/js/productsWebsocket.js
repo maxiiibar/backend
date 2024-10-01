@@ -4,20 +4,10 @@ const form = document.getElementById("form");
 const inputName = document.getElementById("name");
 const inputPrice = document.getElementById("price");
 const inputDescription = document.getElementById("description");
+const inputCategory = document.getElementById("category");
 const inputStock = document.getElementById("stock");
 const products = document.getElementById("products");
 const sessionInfo = document.getElementById("sessionInfo");
-
-fetch("http://localhost:8080/users/info")
-.then((response) => response.json())
-.then((data) => {
-   sessionInfo.innerHTML = `
-        <p>Name: ${data.userName}</p>
-        <p>Email: ${data.userMail}</p>
-        <p>Role: ${data.role}</p>
-        <p>Visit Count: ${data.contador}</p>
-      `;
-});
 
 form.onsubmit = (e) => {
   e.preventDefault();
@@ -25,12 +15,14 @@ form.onsubmit = (e) => {
   const price = inputPrice.value;
   const description = inputDescription.value;
   const stock = inputStock.value;
+  const category = inputCategory.value;
 
   const product = {
     name,
     price,
     description,
     stock,
+    category
   };
   socketClient.emit("newProduct", product);
 };

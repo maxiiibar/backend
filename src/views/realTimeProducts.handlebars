@@ -8,14 +8,13 @@
     name="description"
     id="description"
   />
+  <label>Category:</label><input type="text" name="category" id="category" />
   <label>Price:</label><input type="number" name="price" id="price" />
   <label>Stock:</label><input type="number" name="stock" id="stock" />
   <input type="submit" value="SEND" />
 </form>
 
 <p id="products"></p>
-
-<button onclick="location.href='/users/logout'" >LOG OUT</button>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/productsWebsocket.js"></script>

@@ -13,18 +13,18 @@ import config from "../config.js";
 import logger from "./errors/devLogger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import passport from "./passport/passportConfig.js";
-import ProductDaoMongoDB from "./persistence/daos/mongodb/productDao.js";
+import ProductServices from "./services/productServices.js";
+const productService = new ProductServices();
 import MessageServices from "./services/messageServices.js";
 const msgServices = new MessageServices();
 import Routes from "./routes/routes.js";
 const routes = new Routes();
 
-
 const app = express();
 
 app
-  .use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
-  .use(express.static(__dirname + "/public"))
+  .use("/docs", swaggerUI.serve, swaggerUI.setup(specs))
+  .use(express.static(__dirname + "/../public"))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
@@ -32,15 +32,13 @@ app
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
-app.set("views", __dirname + "/views");
+app.set("views", __dirname + "/../views");
 
 app.use(passport.initialize());
 
 app.use("/api", routes.getRouter());
 
 app.use(errorHandler);
-
-const prodDao = new ProductDaoMongoDB();
 
 const httpServer = app.listen(config.PORT, () =>
   logger.info(`Server ok en puerto ${config.PORT}`)
@@ -50,8 +48,8 @@ const socketIoServer = new Server(httpServer);
 
 socketIoServer.on("connection", (socket) => {
   socket.on("newProduct", async (prod) => {
-    await prodDao.addProduct(prod);
-    const products = await prodDao.getProducts();
+    await productService.create(prod)
+    const products = await productService.getAll();
     socketIoServer.emit("products", products);
   });
 
@@ -61,11 +59,13 @@ socketIoServer.on("connection", (socket) => {
   });
 
   socket.on("chat:message", async (msg) => {
-    await msgServices.createMsg(msg);
-    socketIoServer.emit("messages", await msgServices.getAllMsg());
+    await msgServices.create(msg);
+    socketIoServer.emit("messages", await msgServices.getAll());
   });
 
   socket.on("chat:typing", (data) => {
     socket.broadcast.emit("chat:typing", data);
   });
 });
+
+export default app;

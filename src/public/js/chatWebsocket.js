@@ -24,7 +24,18 @@ const btn = document.getElementById("send");
 const output = document.getElementById("output");
 const actions = document.getElementById("actions");
 
+btn.disabled = true;
+
+message.addEventListener("input", () => {
+  if (message.value.trim() === "") {
+    btn.disabled = true;
+  } else {
+    btn.disabled = false;
+  }
+});
+
 btn.addEventListener("click", () => {
+
   socket.emit("chat:message", {
     user: user,
     message: message.value

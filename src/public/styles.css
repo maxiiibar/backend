@@ -24,7 +24,7 @@ body{
     border-bottom: 1px solid #e9e9e9;
     color: #555;
 }
-input{
+.input-chat{
     padding: 10px 20px;
     box-sizing: border-box;
     border: 0;
@@ -32,7 +32,7 @@ input{
     display: block;
     width: 100%;
 }
-button{
+.boton-send{
     background: #66d857;
     color: #fff;
     font-size: 19px;
@@ -42,6 +42,11 @@ button{
     border-radius: 0 0 2px 2px;
     cursor: pointer;
 }
-button:hover{
+.boton-send:hover{
     background: #1ed106;
+}
+.boton-send:disabled{
+    background: #ccc;
+    cursor: not-allowed;
+    color: #666;
 }
