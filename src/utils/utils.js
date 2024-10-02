@@ -31,3 +31,13 @@ export const isValidPassword = (password, passwordHasheada) => bcrypt.compareSyn
 export const createResponse = (res, statusCode, data) => {
     return res.status(statusCode).json({data})
 }
+
+/**
+ * 
+ * @param {string} email - String a validar
+ * @returns True en caso de ser valido, falso si no
+ */
+export const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };

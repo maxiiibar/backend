@@ -8,7 +8,8 @@
     "dev:mongo": "nodemon . dev mongo",
     "dev:fs": "nodemon . dev fs",
     "prod:mongo": "nodemon . prod mongo",
-    "prod:fs": "nodemon . prod fs"
+    "prod:fs": "nodemon . prod fs",
+    "test:api": "node ./src/test/test.js"
   },
   "keywords": [],
   "author": "Maxi",
