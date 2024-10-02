@@ -451,7 +451,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Carts/InternalServerErrorCartResponse"
-
   /products:
     get:
       tags:
@@ -698,7 +697,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Products/InternalServerErrorProductResponse"
-
   /users/register:
     post:
       tags:
@@ -735,3 +733,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Login/OkLoginResponse"
+  /users/logout:
+    post:
+      tags:
+        - Logout
+      summary: "Log out del usuario"
+      description: "Cierra la sesión del usuario eliminando la cookie de autenticación."
+      responses:
+        200:
+          description: "Deslogeado con éxito."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Logout/OkLogoutResponse"

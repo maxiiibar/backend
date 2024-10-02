@@ -333,3 +333,11 @@ components:
                 type: string
                 description: "Token jwt"
                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmY1ZDFhNWMyZmQ5M2JjYjkwNGZkY2EiLCJpYXQiOjE3MjczODYwMjEsImV4cCI6MTcyNzM4NjMyMX0.aRQeoXds78XZ3TQ-baCQDN6KxaCzkZftp1cUqRmNjuc"
+
+    Logout:
+      OkLogoutResponse:
+        type: object
+        properties:
+          msg:
+            type: string
+            example: Logged out successfully

@@ -19,6 +19,9 @@ export const info = {
       {
         url: "http://localhost:8080/api",
       },
+      {
+        url: "http://localhost:3005/api",
+      }
     ],
   },
   apis: ["./src/docs/*.yml"],

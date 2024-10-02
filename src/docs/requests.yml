@@ -28,7 +28,6 @@ components:
           - price
           - stock
           - category
-          - owner
         properties:
           name:
             type: string
@@ -50,10 +49,6 @@ components:
             type: string
             description: "Categoría del producto"
             example: Micrófono
-          owner:
-            type: string
-            description: "Propietario del producto"
-            example: admin
       User:
         type: object
         required:
