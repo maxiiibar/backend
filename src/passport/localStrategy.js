@@ -31,7 +31,7 @@ const signUp = async (req, email, password, done) => {
 
     if (!isValidEmail(email)) return done(null, false, { message: "Invalid email format." });
     const user = await userServices.getByEmail(email);
-    if (user) return done(null, false, { message: "User already registered." });
+    if (user) return done(null, false, { message: "Email already registered." });
     const newUser = await userServices.register(req.body);
     return done(null, newUser);
   } catch (error) {
