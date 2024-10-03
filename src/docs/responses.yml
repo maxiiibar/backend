@@ -79,7 +79,7 @@ components:
           message:
             type: string
             example: "You are not authorized to access this resource."
-          data:
+          error:
             type: string
             example: "You need to log in."
       NotFoundCartResponse:
@@ -103,7 +103,7 @@ components:
           message:
             type: string
             example: "An internal server error occurred. Please try again later."
-          data:
+          error:
             type: string
             example: "Here will be the error message"
 
@@ -210,7 +210,7 @@ components:
           message:
             type: string
             example: "An internal server error occurred. Please try again later."
-          data:
+          error:
             type: string
             example: "Here will be the error message"
       BadRequestProductResponse:
@@ -234,7 +234,7 @@ components:
           message:
             type: string
             example: "You are not authorized to access this resource."
-          data:
+          error:
             type: string
             example: "You need to log in."
       NotFoundProductResponse:
@@ -300,7 +300,19 @@ components:
                 type: string
                 description: "Token jwt"
                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmY1ZDFhNWMyZmQ5M2JjYjkwNGZkY2EiLCJpYXQiOjE3MjczODYwMjEsImV4cCI6MTcyNzM4NjMyMX0.aRQeoXds78XZ3TQ-baCQDN6KxaCzkZftp1cUqRmNjuc"
-    
+      BadRequestRegisterResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 400
+          message:
+            type: string
+            example: "The request could not be understood or was missing required parameters."
+          data:
+            type: string
+            example: "Here will be the error message"
+
     Login:
       OkLoginResponse:
         type: object
@@ -333,11 +345,41 @@ components:
                 type: string
                 description: "Token jwt"
                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmY1ZDFhNWMyZmQ5M2JjYjkwNGZkY2EiLCJpYXQiOjE3MjczODYwMjEsImV4cCI6MTcyNzM4NjMyMX0.aRQeoXds78XZ3TQ-baCQDN6KxaCzkZftp1cUqRmNjuc"
+      BadRequestLoginResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 400
+          message:
+            type: string
+            example: "The request could not be understood or was missing required parameters."
+          data:
+            type: string
+            example: "Here will be the error message"
+      InvalidCredentialsLoginResponse:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 401
+          message:
+            type: string
+            example: "You are not authorized to access this resource."
+          data:
+            type: string
+            example: Invalid credentials.
 
     Logout:
       OkLogoutResponse:
         type: object
         properties:
-          msg:
+          status:
+            type: integer
+            example: 200
+          message:
+            type: string
+            example: "Request was successful."
+          data:
             type: string
             example: Logged out successfully

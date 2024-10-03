@@ -715,6 +715,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Users/OkRegisterResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Users/BadRequestRegisterResponse"
   /users/login:
     post:
       tags:
@@ -733,6 +739,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schema/Login/OkLoginResponse"
+        401:
+          description: Email y/o contraseña incorrectos.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Login/InvalidCredentialsLoginResponse"
+        400:
+          description: Error en la solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/Login/BadRequestLoginResponse"
   /users/logout:
     post:
       tags:
