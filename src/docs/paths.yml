@@ -59,7 +59,7 @@ paths:
       summary: Obtener un carrito por ID u "own para obtener el propio".
       parameters:
         - in: path
-          name: id u "own"
+          name: id
           required: true
           description: ID del carrito u "own".
           schema:
