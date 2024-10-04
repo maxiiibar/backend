@@ -17,11 +17,8 @@ export const info = {
     },
     servers: [
       {
-        url: "http://localhost:8080/api",
+        url: "https://maximo-bar-proyecto-de-backend-coderhouse.onrender.com/api",
       },
-      {
-        url: "http://localhost:3005/api",
-      }
     ],
   },
   apis: ["./src/docs/*.yml"],
