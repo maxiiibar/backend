@@ -1,25 +1,8 @@
-import dotenv from "dotenv";
-
-const ENV = process.argv.slice(2)[0];
-
-dotenv.config({ path: ENV === "prod" ? "./.env.prod" : "./.env.dev" });
-
-let MONGO_URL = null;
-let PERSISTENCE = null;
-
-if (process.argv.slice(2)[1] == "mongo"){
-  PERSISTENCE = "mongo"
-  if (ENV == "prod") MONGO_URL = process.env.MONGO_ATLAS_URL
-  else MONGO_URL = process.env.MONGO_LOCAL_URL
-}
-else if (process.argv.slice(2)[1] == "fs"){
-  PERSISTENCE = "fs"
-}
-
+import 'dotenv/config'
 export default {
-  NODE_ENV: ENV,
-  PERSISTENCE,
-  MONGO_URL,
+  NODE_ENV: process.env.NODE_ENV,
+  PERSISTENCE: "mongo",
+  MONGO_URL: process.env.MONGO_ATLAS_URL,
   PORT: process.env.PORT,
   PORT_GMAIL: process.env.PORT_GMAIL,
   SECRET_KEY: process.env.SECRET_KEY,
