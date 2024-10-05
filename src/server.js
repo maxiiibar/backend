@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
+import helmet from 'helmet'
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { info } from "./docs/info.js";
@@ -28,7 +29,8 @@ app
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
-  .use(cookieParser());
+  .use(cookieParser())
+  .use(helmet());
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
