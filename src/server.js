@@ -24,13 +24,13 @@ const routes = new Routes();
 const app = express();
 
 app
+  .use(helmet())
   .use("/docs", swaggerUI.serve, swaggerUI.setup(specs))
   .use(express.static(__dirname + "/../public"))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
   .use(cookieParser())
-  .use(helmet());
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
