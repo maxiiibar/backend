@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
+import helmet from 'helmet'
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { info } from "./docs/info.js";
@@ -23,16 +24,13 @@ const routes = new Routes();
 const app = express();
 
 app
+  .use(helmet())
   .use("/docs", swaggerUI.serve, swaggerUI.setup(specs))
   .use(express.static(__dirname + "/../public"))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
   .use(cookieParser());
-
-app.engine("handlebars", handlebars.engine());
-app.set("view engine", "handlebars");
-app.set("views", __dirname + "/../views");
 
 app.use(passport.initialize());
 
