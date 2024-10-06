@@ -17,7 +17,10 @@ router.post(
         if (info && info.clearCookie) {
           res.clearCookie("token");
         }
-        if (info.invalidCredentials){
+        else if (info.invalidCredentials){
+          return httpResponse.Unauthorized(res, info.message)
+        }
+        else if(info.inactiveAcount){
           return httpResponse.Unauthorized(res, info.message)
         }
         return httpResponse.BadRequest(res, info ? info.message : "Registration failed." );
@@ -47,6 +50,9 @@ router.post(
   controller.registerResponse
 );
 
+router.get("/", [checkAuth, checkPremium], controller.getUsers)
+
+router.get("/state", [checkAuth, checkPremium], controller.getUsersByState)
 
 router.get("/current", checkAuth, controller.profile);
 
@@ -56,11 +62,8 @@ router.put("/new-pass", checkAuth, controller.updatePass);
 
 router.put("/premium/:id", [checkAuth, checkAdmin], controller.reverseRole);
 
-router.post("/logout", (req, res) => {
-  res.clearCookie("token");
-  httpResponse.Ok(res, "Logged out successfully");
-});
+router.post("/logout", checkAuth, controller.logOut);
 
-router.get("/", [checkAuth, checkPremium], controller.getUsers)
+router.delete("/checkInactive", controller.checkUsersLastConnection)
 
 export default router;

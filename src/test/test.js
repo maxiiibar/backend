@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import { UserModel } from "../persistence/daos/mongodb/models/userModel.js";
 import { ProductModel } from "../persistence/daos/mongodb/models/productModel.js";
 import { CartModel } from "../persistence/daos/mongodb/models/cartModel.js";
+import config from "../../config.js";
 
 const getRandomNumber = () => {
   return Math.floor(Math.random() * 51) + 50;
@@ -39,7 +40,7 @@ let token, email, productId;
 
 describe("TEST API REST", () => {
   before(async () => {
-    await mongoose.connect('mongodb://localhost:27017/tu_base_de_datos');
+    await mongoose.connect(config.MONGO_URL);
     await UserModel.deleteMany({});
     await ProductModel.deleteMany({});
     await CartModel.deleteMany({});

@@ -9,22 +9,7 @@ const router = Router();
 
 router.get("/", [checkAuth], controller.getAll);
 
-router.get("/home", async (req, res, next) => {
-  try {
-    const products = await services.getAll();
-    const productsMapped = products.map(product => ({
-      id: product._id,
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      stock: product.stock
-    }));
-
-    res.render("home", { products: productsMapped });
-  } catch (error) {
-    next(error.message);
-  }
-});
+router.get("/home", [checkAuth], controller.renderHome);
 
 router.get("/:id", [checkAuth], controller.getById);
 

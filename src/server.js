@@ -24,13 +24,24 @@ const routes = new Routes();
 const app = express();
 
 app
-  .use(helmet())
+  .use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      },
+    },
+  }))
   .use("/docs", swaggerUI.serve, swaggerUI.setup(specs))
   .use(express.static(__dirname + "/../public"))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
   .use(cookieParser());
+
+app.engine("handlebars", handlebars.engine());
+app.set("view engine", "handlebars");
+app.set("views", __dirname + "/../views");
 
 app.use(passport.initialize());
 

@@ -39,6 +39,7 @@ export default class UserServices extends Services {
           password: createHash(password),
           role: "admin",
           cart: cartUser._id,
+          lastConnection: new Date(),
         });
         return newUser;
       } else {
@@ -46,6 +47,7 @@ export default class UserServices extends Services {
           ...user,
           password: createHash(password),
           cart: cartUser._id,
+          lastConnection: new Date(),
         });
         return newUser;
       }
@@ -58,7 +60,6 @@ export default class UserServices extends Services {
       const userExists = await this.dao.getByEmail(email);
       if (!userExists) return null;
       const passwordValidated = isValidPassword(password, userExists.password);
-
       if (!passwordValidated) return null;
       if (userExists && passwordValidated)
         await this.updateLastConnection(userExists._id);
@@ -126,7 +127,7 @@ export default class UserServices extends Services {
     });
   }
 
-  async checkUserLastConnection() {
+  async checkUsersLastConnection() {
     try {
       const usersInactive = [];
       const users = await this.dao.getAll();

@@ -23,6 +23,7 @@ export default class UserController extends Controller {
 
   loginResponse = async (req, res, next) => {
     try {
+      await this.service.updateLastConnection(req.user._id)
       const token = await this.service.login(req.body);
       if (!token) httpResponse.Unauthorized(res, token);
       res.cookie("token", token, { httpOnly: true, secure: true });
@@ -145,6 +146,16 @@ export default class UserController extends Controller {
       ]);
       if (!response) return httpResponse.ServerError(res, "");
       return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  logOut = async (req, res, next) => {
+    try {
+      await this.service.updateLastConnection(req.user._id);
+      res.clearCookie("token");
+      httpResponse.Ok(res, "Logged out successfully");
     } catch (error) {
       next(error);
     }
