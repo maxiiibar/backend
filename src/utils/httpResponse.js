@@ -9,9 +9,9 @@ const HttpStatus = {
 
 const errorsDictionary = {
   OK: "Request was successful.",
-  BAD_REQUEST:"The request could not be understood or was missing required parameters.",
-  UNAUTHORIZED:
-  "You are not authorized to access this resource.",
+  BAD_REQUEST:
+    "The request could not be understood or was missing required parameters.",
+  UNAUTHORIZED: "You are not authorized to access this resource.",
   NOT_FOUND: "The requested resource was not found.",
   FORBIDDEN: "Access to this resource is forbidden.",
   INTERNAL_SERVER_ERROR:
@@ -27,12 +27,12 @@ export default class HttpResponse {
     });
   }
 
-  BadRequest(res, data){
+  BadRequest(res, data) {
     return res.status(HttpStatus.BAD_REQUEST).json({
       status: HttpStatus.BAD_REQUEST,
       message: errorsDictionary.BAD_REQUEST,
       data,
-    })
+    });
   }
 
   Unauthorized(res, data) {

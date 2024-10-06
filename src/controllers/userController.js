@@ -14,8 +14,8 @@ export default class UserController extends Controller {
     try {
       const token = this.service.generateToken(req.user);
       res.cookie("token", token, { httpOnly: true, secure: true });
-      const user = req.user
-      return httpResponse.Ok(res, { user: user, token: token} )
+      const user = req.user;
+      return httpResponse.Ok(res, { user: user, token: token });
     } catch (error) {
       next(error);
     }
@@ -89,6 +89,61 @@ export default class UserController extends Controller {
       const { id } = req.params;
       const response = await this.service.reverseRole(id);
       if (!response) return httpResponse.NotFound(res, { id });
+      return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  checkUsersLastConnection = async (req, res, next) => {
+    try {
+      const response = await this.service.checkUsersLastConnection();
+      if (response.length > 0) {
+        const data = {
+          info: "Usuarios desactivados en esta operación:",
+          users: response,
+        };
+        return httpResponse.Ok(res, data);
+      } else
+        return httpResponse.Ok(
+          res,
+          "No se desactivaron usuario en esta operación"
+        );
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getUsersByState = async (req, res, next) => {
+    try {
+      const { active } = req.query;
+      let response, answer;
+      if (active == "true") {
+        response = await this.service.getUsersByState(true);
+        answer = "activos";
+      } else {
+        response = await this.service.getUsersByState(false);
+        answer = "inactivos";
+      }
+      if (!response) return httpResponse.ServerError(res, response);
+      return httpResponse.Ok(res, {
+        info: `Usuarios ${answer}:`,
+        users: response,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getUsers = async (req, res, next) => {
+    try {
+      const response = await this.service.getUsersSummarized([
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+      ]);
+      if (!response) return httpResponse.ServerError(res, "");
       return httpResponse.Ok(res, response);
     } catch (error) {
       next(error);

@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
-import helmet from 'helmet'
+import helmet from "helmet";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { info } from "./docs/info.js";
@@ -46,7 +46,7 @@ const socketIoServer = new Server(httpServer);
 
 socketIoServer.on("connection", (socket) => {
   socket.on("newProduct", async (prod) => {
-    await productService.create(prod)
+    await productService.create(prod);
     const products = await productService.getAll();
     socketIoServer.emit("products", products);
   });

@@ -1,9 +1,14 @@
 import Services from "./classServices.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { createHash, isValidPassword } from "../utils/utils.js";
+import {
+  createHash,
+  isValidPassword,
+  hasBeenMoreThanXTime,
+} from "../utils/utils.js";
 import factory from "../persistence/daos/factory.js";
 import UserRepository from "../persistence/repository/userRepository.js";
+import logger from "../errors/devLogger.js";
 const userRepository = new UserRepository();
 const { userDao, cartDao } = factory;
 
@@ -56,7 +61,8 @@ export default class UserServices extends Services {
 
       if (!passwordValidated) return null;
       if (userExists && passwordValidated)
-        return this.generateToken(userExists);
+        await this.updateLastConnection(userExists._id);
+      return this.generateToken(userExists);
     } catch (error) {
       throw new Error(error);
     }
@@ -99,16 +105,66 @@ export default class UserServices extends Services {
     }
   }
 
-  async reverseRole(id){
+  async reverseRole(id) {
     try {
       const user = await this.dao.getUserById(id);
-      if(!user) return null;
-      if(user.role === "user"){
-        await this.dao.update(id, {role: "premium"})
-      } else{
-        await this.dao.update(id, {role: "user"})
+      if (!user) return null;
+      if (user.role === "user") {
+        await this.dao.update(id, { role: "premium" });
+      } else {
+        await this.dao.update(id, { role: "user" });
       }
       return this.getUserById(id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async updateLastConnection(userId) {
+    return await this.dao.update(userId, {
+      lastConnection: new Date(),
+    });
+  }
+
+  async checkUserLastConnection() {
+    try {
+      const usersInactive = [];
+      const users = await this.dao.getAll();
+      if (users.length > 0) {
+        for (const user of users) {
+          if (
+            user.lastConnection &&
+            hasBeenMoreThanXTime(user.lastConnection, 48)
+          ) {
+            logger.info;
+            await this.dao.update(user._id, {
+              active: false,
+            });
+            usersInactive.push(user.email);
+          }
+        }
+      }
+      return usersInactive;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getUsersByState(state) {
+    try {
+      const response = await this.dao.getUsersByState(state);
+      if (!response) return null;
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getUsersSummarized(values) {
+    try {
+      const response = await this.dao.getUsersSummarized(values);
+      if (!response) return null;
+      return response;
     } catch (error) {
       throw new Error(error);
     }

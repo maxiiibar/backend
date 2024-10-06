@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/authJwt.js";
-import { checkAdmin } from "../middlewares/checkRole.js";
+import { checkAdmin, checkPremium } from "../middlewares/checkRole.js";
 import passport from "passport";
 const router = Router();
 import UserController from "../controllers/userController.js";
@@ -60,5 +60,7 @@ router.post("/logout", (req, res) => {
   res.clearCookie("token");
   httpResponse.Ok(res, "Logged out successfully");
 });
+
+router.get("/", [checkAuth, checkPremium], controller.getUsers)
 
 export default router;

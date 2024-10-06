@@ -9,7 +9,8 @@ import bcrypt from "bcrypt";
  * @param {string} password - Contraseña que se desea hashear
  * @returns - Contraseña hasheada
  */
-export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+export const createHash = (password) =>
+  bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
 /**
  * Función que compara la contraseña en string plano con la hasheada del usuario
@@ -17,27 +18,28 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
  * @param {string} passwordHasheada - Contraseña hasheada de usuario existente en base de datos
  * @returns {boolean}
  */
-
-export const isValidPassword = (password, passwordHasheada) => bcrypt.compareSync(password, passwordHasheada);
-
-/**
- * Función que crea la respuesta para la petición del controller
- * @param {object} res - Objeto res
- * @param {number} statusCode - Código de estado
- * @param {object} data - Data que se va a devolver en la respuesta
- * @returns Respuesta en formato json
- */
-
-export const createResponse = (res, statusCode, data) => {
-    return res.status(statusCode).json({data})
-}
+export const isValidPassword = (password, passwordHasheada) =>
+  bcrypt.compareSync(password, passwordHasheada);
 
 /**
- * 
+ * Función para validar si el imput tiene efectivamente el formato adecuado
  * @param {string} email - String a validar
  * @returns True en caso de ser valido, falso si no
  */
 export const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+/**
+ * Función para determinar si pasó más de x tiempo desde la última conexión del usuario
+ * @param {date} lastConnectionDate - Fecha de la última conexión del usuario
+ * @param {number} timeInHours - Tiempo a comprobar
+ * @returns {boolean}
+ */
+export const hasBeenMoreThanXTime = (lastConnectionDate, timeInHours) => {
+  const dateNow = new Date();
+  const diffMs = dateNow - lastConnectionDate;
+  const hoursMs = timeInHours * 60 * 60 * 1000;
+  return diffMs > hoursMs;
+};
