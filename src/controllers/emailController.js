@@ -1,4 +1,3 @@
-import config from "../../config.js";
 import logger from "../errors/devLogger.js";
 import { sendMail } from "../services/emailServices.js";
 import HttpResponse from "../utils/httpResponse.js";

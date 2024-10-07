@@ -8,11 +8,11 @@ export default class ProductServices extends Services {
     super(prodDao);
   }
 
-  createProductsMock = async () => {
+  createProductsMock = async (owner) => {
     try {
       const productsArray = [];
       for (let index = 0; index < 100; index++) {
-        const product = generateProduct();
+        const product = generateProduct(owner);
         productsArray.push(product);
       }
       return await this.dao.create(productsArray);
@@ -24,7 +24,7 @@ export default class ProductServices extends Services {
   delete = async (id, role, email) => {
     try {
       const prod = await this.getById(id);
-      if (role !== "admin" && email !== prod.owner) return null;
+      if (role !== "admin" && email !== prod.owner) return -1;
       return await this.dao.delete(id);
     } catch (error) {
       throw new Error(error);

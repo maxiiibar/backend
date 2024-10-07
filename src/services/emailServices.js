@@ -2,7 +2,7 @@ import { createTransport } from "nodemailer";
 import logger from "../errors/devLogger.js";
 import config from "../../config.js";
 
-export const transporter = createTransport({
+const transporter = createTransport({
   service: "gmail",
   port: config.PORT_GMAIL,
   secure: true,
@@ -17,7 +17,7 @@ const createMsgRegister = (firstName) => {
 };
 
 const createMsgProductDeleted = (firstName, productName) => {
-  return `<h1>Hola ${firstName}, Este correo electrónico es para notificarle que su producto "${productName}" ha sido eliminado.</h1>`
+  return `<h1>Hola ${firstName}</h1><br><p>Este correo electrónico es para notificarte que tu producto "${productName}" ha sido eliminado.</p>`
 };
 
 const createMsgReset = (firstName) => {
@@ -60,7 +60,7 @@ export const sendMail = async (user, service, token = null, productName = null) 
 
     const response = await transporter.sendMail(gmailOptions);
     if (token) return token;
-    logger.info(`Email enviado:\n${response}`);
+    logger.info(`Email enviado:\n${JSON.stringify(response, null, 2)}`);
   } catch (error) {
     throw new Error(error);
   }
