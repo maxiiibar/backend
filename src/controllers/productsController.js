@@ -1,6 +1,9 @@
 import Controller from "./classController.js";
 import ProductServices from "../services/productServices.js";
 const productServices = new ProductServices();
+import UserServices from "../services/userServices.js";
+const userServices = new UserServices();
+import { sendMail } from "../services/emailServices.js";
 import HttpResponse from "../utils/httpResponse.js";
 const httpResponse = new HttpResponse();
 
@@ -11,7 +14,9 @@ export default class ProductController extends Controller {
 
   createProductsMock = async (req, res, next) => {
     try {
-      httpResponse.Ok(res, await this.service.createProductsMock());
+      let owner = "";
+      req.user.role === "admin" ? (owner = "admin") : (owner = req.user.email);
+      httpResponse.Ok(res, await this.service.createProductsMock(owner));
     } catch (error) {
       next(error);
     }
@@ -36,10 +41,15 @@ export default class ProductController extends Controller {
       const { id } = req.params;
       const role = req.user.role;
       const email = req.user.email;
-      const response = await this.service.delete(id, role, email);
-      if (!response)
+      const product = await this.service.delete(id, role, email);
+      if (!product) return httpResponse.NotFound(res, "Product not found");
+      if (product === -1)
         return httpResponse.Unauthorized(res, "You are not the product owner.");
-      return httpResponse.Ok(res, response);
+      const user = await userServices.getByEmail(product.owner);
+      if (user.role == "premium") {
+        sendMail(user, "product deleted", null, product.name);
+      }
+      return httpResponse.Ok(res, product);
     } catch (error) {
       next(error);
     }
