@@ -67,7 +67,8 @@ const login = async (req, email, password, done) => {
         message: "Invalid credentials.",
         invalidCredentials: true,
       });
-    if (!userlogin.active)
+    const user = await userServices.getByEmail(email);
+    if (!user.active)
       return done(null, false, {
         message: "Inactive account",
         inactiveAcount: true,
