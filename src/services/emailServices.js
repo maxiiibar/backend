@@ -13,11 +13,11 @@ const transporter = createTransport({
 });
 
 const createMsgRegister = (firstName) => {
-  return `<h1>Hola ${firstName}, ¡Bienvenido/a a Coderhouse!</h1>`
+  return `<h1>Hola ${firstName}, ¡Bienvenido/a a Coderhouse!</h1>`;
 };
 
 const createMsgProductDeleted = (firstName, productName) => {
-  return `<h1>Hola ${firstName}</h1><br><p>Este correo electrónico es para notificarte que tu producto "${productName}" ha sido eliminado.</p>`
+  return `<h1>Hola ${firstName}</h1><br><p>Este correo electrónico es para notificarte que tu producto "${productName}" ha sido eliminado.</p>`;
 };
 
 const createMsgReset = (firstName) => {
@@ -26,7 +26,12 @@ const createMsgReset = (firstName) => {
     </p>`;
 };
 
-export const sendMail = async (user, service, token = null, productName = null) => {
+export const sendMail = async (
+  user,
+  service,
+  token = null,
+  productName = null
+) => {
   try {
     const { firstName, email } = user;
 
@@ -38,7 +43,7 @@ export const sendMail = async (user, service, token = null, productName = null) 
       ? (msg = createMsgReset(firstName))
       : service === "product deleted"
       ? (msg = createMsgProductDeleted(firstName, productName))
-      : (msg = "")
+      : (msg = "");
 
     let subj = "";
 
@@ -49,7 +54,7 @@ export const sendMail = async (user, service, token = null, productName = null) 
         ? "Restablecimiento de contraseña"
         : service === "product deleted"
         ? "Producto eliminado"
-        : ""
+        : "";
 
     const gmailOptions = {
       from: config.EMAIL_GMAIL,
@@ -59,8 +64,10 @@ export const sendMail = async (user, service, token = null, productName = null) 
     };
 
     const response = await transporter.sendMail(gmailOptions);
+    const responseStringify = JSON.stringify(response, null, 2);
+    logger.info(`Email enviado:\n${responseStringify}`);
     if (token) return token;
-    logger.info(`Email enviado:\n${JSON.stringify(response, null, 2)}`);
+    return response;
   } catch (error) {
     throw new Error(error);
   }
