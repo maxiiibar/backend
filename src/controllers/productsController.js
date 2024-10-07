@@ -16,10 +16,7 @@ export default class ProductController extends Controller {
     try {
       let owner = "";
       req.user.role === "admin" ? (owner = "admin") : (owner = req.user.email);
-      httpResponse.Ok(
-        res,
-        await this.service.createProductsMock(owner)
-      );
+      httpResponse.Ok(res, await this.service.createProductsMock(owner));
     } catch (error) {
       next(error);
     }
@@ -45,8 +42,7 @@ export default class ProductController extends Controller {
       const role = req.user.role;
       const email = req.user.email;
       const product = await this.service.delete(id, role, email);
-      if (!product)
-        return httpResponse.NotFound(res, "Product not found");
+      if (!product) return httpResponse.NotFound(res, "Product not found");
       if (product === -1)
         return httpResponse.Unauthorized(res, "You are not the product owner.");
       const user = await userServices.getByEmail(product.owner);

@@ -36,7 +36,7 @@ export const sendMail = async (user, service, token = null, productName = null) 
       ? (msg = createMsgRegister(firstName))
       : service === "resetPass"
       ? (msg = createMsgReset(firstName))
-      : service = "product deleted"
+      : service === "product deleted"
       ? (msg = createMsgProductDeleted(firstName, productName))
       : (msg = "")
 
@@ -47,7 +47,7 @@ export const sendMail = async (user, service, token = null, productName = null) 
         ? "Bienvenido/a"
         : service === "resetPass"
         ? "Restablecimiento de contraseña"
-        : service == "product deleted"
+        : service === "product deleted"
         ? "Producto eliminado"
         : ""
 
@@ -59,8 +59,10 @@ export const sendMail = async (user, service, token = null, productName = null) 
     };
 
     const response = await transporter.sendMail(gmailOptions);
+    const responseStringify = JSON.stringify(response, null, 2)
+    logger.info(`Email enviado:\n${responseStringify}`);
     if (token) return token;
-    logger.info(`Email enviado:\n${JSON.stringify(response, null, 2)}`);
+    return response;
   } catch (error) {
     throw new Error(error);
   }

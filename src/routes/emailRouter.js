@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/authJwt.js";
-import { sendMailRegiser } from "../controllers/emailController.js";
+import { sendMailRegister } from "../controllers/emailController.js";
 
 const router = Router();
 
-router.post('/send',[checkAuth], sendMailRegiser)
+router.post('/send',[checkAuth], sendMailRegister)
 
 export default router
