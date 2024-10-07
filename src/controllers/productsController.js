@@ -38,6 +38,7 @@ export default class ProductController extends Controller {
       const email = req.user.email;
       const response = await this.service.delete(id, role, email);
       if (!response)
+        if(role == 'premium') 
         return httpResponse.Unauthorized(res, "You are not the product owner.");
       return httpResponse.Ok(res, response);
     } catch (error) {

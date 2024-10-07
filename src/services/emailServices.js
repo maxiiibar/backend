@@ -12,8 +12,13 @@ export const transporter = createTransport({
   },
 });
 
-const createMsgRegister = (firstName) =>
-  `<h1>Hola ${firstName}, ¡Bienvenido/a a Coderhouse!</h1>`;
+const createMsgRegister = (firstName) => {
+  return `<h1>Hola ${firstName}, ¡Bienvenido/a a Coderhouse!</h1>`
+};
+
+const createMsgProductDeleted = (firstName, productName) => {
+  return `<h1>Hola ${firstName}, Este correo electrónico es para notificarle que su producto "${productName}" ha sido eliminado.</h1>`
+};
 
 const createMsgReset = (firstName) => {
   return `<p>¡Hola ${firstName}! Hacé click <a href="http://localhost:8080/new-pass">AQUÍ</a> 
@@ -21,7 +26,7 @@ const createMsgReset = (firstName) => {
     </p>`;
 };
 
-export const sendMail = async (user, service, token = null) => {
+export const sendMail = async (user, service, token = null, productName = null) => {
   try {
     const { firstName, email } = user;
 
@@ -31,7 +36,9 @@ export const sendMail = async (user, service, token = null) => {
       ? (msg = createMsgRegister(firstName))
       : service === "resetPass"
       ? (msg = createMsgReset(firstName))
-      : (msg = "");
+      : service = "product deleted"
+      ? (msg = createMsgProductDeleted(firstName, productName))
+      : (msg = "")
 
     let subj = "";
 
@@ -40,7 +47,9 @@ export const sendMail = async (user, service, token = null) => {
         ? "Bienvenido/a"
         : service === "resetPass"
         ? "Restablecimiento de contraseña"
-        : "";
+        : service == "product deleted"
+        ? "Producto eliminado"
+        : ""
 
     const gmailOptions = {
       from: config.EMAIL_GMAIL,
