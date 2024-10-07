@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/authJwt.js";
-import { checkAdmin } from "../middlewares/checkRole.js";
+import { checkAdmin, checkPremium } from "../middlewares/checkRole.js";
 import passport from "passport";
 const router = Router();
 import UserController from "../controllers/userController.js";
@@ -16,11 +16,15 @@ router.post(
       if (!user) {
         if (info && info.clearCookie) {
           res.clearCookie("token");
+        } else if (info.invalidCredentials) {
+          return httpResponse.Unauthorized(res, info.message);
+        } else if (info.inactiveAcount) {
+          return httpResponse.Unauthorized(res, info.message);
         }
-        if (info.invalidCredentials){
-          return httpResponse.Unauthorized(res, info.message)
-        }
-        return httpResponse.BadRequest(res, info ? info.message : "Registration failed." );
+        return httpResponse.BadRequest(
+          res,
+          info ? info.message : "Registration failed."
+        );
       }
       req.user = user;
       next();
@@ -38,7 +42,10 @@ router.post(
         if (info && info.clearCookie) {
           res.clearCookie("token");
         }
-        return httpResponse.BadRequest(res, info ? info.message : "Registration failed." );
+        return httpResponse.BadRequest(
+          res,
+          info ? info.message : "Registration failed."
+        );
       }
       req.user = user;
       next();
@@ -47,6 +54,9 @@ router.post(
   controller.registerResponse
 );
 
+router.get("/", [checkAuth, checkPremium], controller.getUsers);
+
+router.get("/state", [checkAuth, checkPremium], controller.getUsersByState);
 
 router.get("/current", checkAuth, controller.profile);
 
@@ -56,9 +66,8 @@ router.put("/new-pass", checkAuth, controller.updatePass);
 
 router.put("/premium/:id", [checkAuth, checkAdmin], controller.reverseRole);
 
-router.post("/logout", (req, res) => {
-  res.clearCookie("token");
-  httpResponse.Ok(res, "Logged out successfully");
-});
+router.post("/logout", checkAuth, controller.logOut);
+
+router.delete("/checkInactive", controller.checkUsersLastConnection);
 
 export default router;

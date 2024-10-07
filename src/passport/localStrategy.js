@@ -22,23 +22,27 @@ const signUp = async (req, email, password, done) => {
         return done(null, false, { message: "Already logged in." });
       } catch (error) {
         if (error.name === "TokenExpiredError") {
-          return done(null, false, { message: "Token expired, please log in again.", clearCookie: true });
+          return done(null, false, {
+            message: "Token expired, please log in again.",
+            clearCookie: true,
+          });
         } else {
           return done(null, false, { message: "Invalid token." });
         }
       }
     }
 
-    if (!isValidEmail(email)) return done(null, false, { message: "Invalid email format." });
+    if (!isValidEmail(email))
+      return done(null, false, { message: "Invalid email format." });
     const user = await userServices.getByEmail(email);
-    if (user) return done(null, false, { message: "Email already registered." });
+    if (user)
+      return done(null, false, { message: "Email already registered." });
     const newUser = await userServices.register(req.body);
     return done(null, newUser);
   } catch (error) {
     return done(error);
   }
 };
-
 
 const login = async (req, email, password, done) => {
   try {
@@ -48,22 +52,31 @@ const login = async (req, email, password, done) => {
         return done(null, false, { message: "Already logged in." });
       } catch (error) {
         if (error.name === "TokenExpiredError") {
-          return done(null, false, { message: "Token expired, please log in again.", clearCookie: true });
+          return done(null, false, {
+            message: "Token expired, please log in again.",
+            clearCookie: true,
+          });
         } else {
           return done(null, false, { message: "Invalid token." });
         }
       }
     }
     const userlogin = await userServices.login({ email, password });
-    if (!userlogin) {
-      return done(null, false, { message: "Invalid credentials.", invalidCredentials: true });
-    }
+    if (!userlogin)
+      return done(null, false, {
+        message: "Invalid credentials.",
+        invalidCredentials: true,
+      });
+    if (!userlogin.active)
+      return done(null, false, {
+        message: "Inactive account",
+        inactiveAcount: true,
+      });
     return done(null, userlogin);
   } catch (error) {
     return done(error);
   }
 };
-
 
 const signUpStrategy = new LocalStrategy(strategyConfig, signUp);
 const loginStrategy = new LocalStrategy(strategyConfig, login);

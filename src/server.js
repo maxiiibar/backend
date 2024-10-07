@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import handlebars from "express-handlebars";
 import morgan from "morgan";
-import helmet from 'helmet'
+import helmet from "helmet";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { info } from "./docs/info.js";
@@ -24,13 +24,22 @@ const routes = new Routes();
 const app = express();
 
 app
-  .use(helmet())
+  .use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+        },
+      },
+    })
+  )
   .use("/docs", swaggerUI.serve, swaggerUI.setup(specs))
   .use(express.static(__dirname + "/../public"))
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(morgan("dev"))
-  .use(cookieParser())
+  .use(cookieParser());
 
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
@@ -50,7 +59,7 @@ const socketIoServer = new Server(httpServer);
 
 socketIoServer.on("connection", (socket) => {
   socket.on("newProduct", async (prod) => {
-    await productService.create(prod)
+    await productService.create(prod);
     const products = await productService.getAll();
     socketIoServer.emit("products", products);
   });
