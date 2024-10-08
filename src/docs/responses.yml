@@ -286,10 +286,16 @@ components:
                     example: "user"
                   isGitHub:
                     type: boolean
-                    example: false,
+                    example: false
                   cart:
                     type: string
                     example: "66f5d1a5c2fd93bcb904fdc8"
+                  lastConnection:
+                    type: date
+                    example: "2024-10-07T23:13:48.364Z"
+                  active:
+                    type: boolean
+                    example: true
                   _id:
                     type: string
                     example: "66f5d1a5c2fd93bcb904fdca"
